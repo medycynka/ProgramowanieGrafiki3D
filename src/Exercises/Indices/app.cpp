@@ -23,26 +23,35 @@ void SimpleShapeApplication::init() {
         std::cerr << std::string(PROJECT_DIR) + "/shaders/base_fs.glsl" << " shader files" << std::endl;
     }
 
+    std::vector<GLushort> indices = {
+            0, 1, 2, 3, 1, 0, 3, 4, 1, 5, 6, 7, 8, 6, 5, 8, 9, 6
+    };
     std::vector<GLfloat> vertices = {
-            -0.8f, 0.5f, 0.0f, /* first vertex */ 0.4f, 0.0f, 0.0f, /* color */
+            -0.8f, 0.5f, 0.0f, /* first vertex */ 0.9f, 0.0f, 0.0f, /* color */
             -0.1f, 0.5f, 0.0f, /* second vertex */ 0.9f, 0.7f, 0.0f,
-            -0.45f, 0.8f, 0.0f, /* third vertex */ 0.4f, 0.0f, 0.9f,
+            -0.45f, 0.8f, 0.0f, /* third vertex */ 0.9f, 0.0f, 0.9f,
             -0.8f, -0.5f, 0.0f, 0.63f, 0.45f, 0.41f,
-            -0.1f, 0.5f, 0.0f, 0.63f, 0.45f, 0.41f,
-            -0.8f, 0.5f, 0.0f, 0.63f, 0.45f, 0.41f,
-            -0.8f, -0.5f, 0.0f, 0.63f, 0.45f, 0.41f,
+            /*-0.1f, 0.5f, 0.0f, 0.63f, 0.45f, 0.41f,*/
+            /*-0.8f, 0.5f, 0.0f, 0.63f, 0.45f, 0.41f,*/
+            /*-0.8f, -0.5f, 0.0f, 0.63f, 0.45f, 0.41f,*/
             -0.1f, -0.5f, 0.0f, 0.63f, 0.45f, 0.41f,
-            -0.1f, 0.5f, 0.0f, 0.63f, 0.45f, 0.41f,
+            /*-0.1f, 0.5f, 0.0f, 0.63f, 0.45f, 0.41f,*/
             0.1f, 0.5f, 0.0f, /* second house */ 0.05f, 0.47f, 0.06f,
             0.8f, 0.5f, 0.0f, 0.05f, 0.47f, 0.06f,
             0.45f, 0.8f, 0.0f, 0.05f, 0.47f, 0.06f,
             0.1f, -0.5f, 0.0f, 0.54f, 0.8f, 0.89f,
-            0.8f, 0.5f, 0.0f, 0.54f, 0.8f, 0.89f,
-            0.1, 0.5f, 0.0f, 0.54f, 0.8f, 0.89f,
-            0.1f, -0.5f, 0.0f, 0.54f, 0.8f, 0.89f,
-            0.8f, -0.5f, 0.0f, 0.54f, 0.8f, 0.89f,
-            0.8f, 0.5f, 0.0f, 0.54f, 0.8f, 0.89f
+            /*0.8f, 0.5f, 0.0f, 0.54f, 0.8f, 0.89f,*/
+            /*0.1, 0.5f, 0.0f, 0.54f, 0.8f, 0.89f,*/
+            /*0.1f, -0.5f, 0.0f, 0.54f, 0.8f, 0.89f,*/
+            0.8f, -0.5f, 0.0f, 0.54f, 0.8f, 0.89f
+            /*0.8f, 0.5f, 0.0f, 0.54f, 0.8f, 0.89f*/
     };
+
+    GLuint idx_buffer_handle;
+    glGenBuffers(1, &idx_buffer_handle);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idx_buffer_handle);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLushort), indices.data(), GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     GLuint v_buffer_handle;
     glGenBuffers(1, &v_buffer_handle);
@@ -53,6 +62,7 @@ void SimpleShapeApplication::init() {
 
     glGenVertexArrays(1, &vao_);
     glBindVertexArray(vao_);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idx_buffer_handle);
     glBindBuffer(GL_ARRAY_BUFFER, v_buffer_handle);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), reinterpret_cast<GLvoid *>(0));
@@ -72,6 +82,7 @@ void SimpleShapeApplication::init() {
 
 void SimpleShapeApplication::frame() {
     glBindVertexArray(vao_);
-    glDrawArrays(GL_TRIANGLES, 0, 3 * 6);
+//    glDrawArrays(GL_TRIANGLES, 0, 3 * 6);
+    glDrawElements(GL_TRIANGLES, 9 * 2, GL_UNSIGNED_SHORT, nullptr);
     glBindVertexArray(0);
 }
