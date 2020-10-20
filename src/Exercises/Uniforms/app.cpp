@@ -97,12 +97,11 @@ void SimpleShapeApplication::init() {
     glBufferData(GL_UNIFORM_BUFFER, 5 * sizeof(GLfloat), nullptr, GL_STATIC_DRAW);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
     glBindBufferBase(GL_UNIFORM_BUFFER, 0, ubo_handle);
-
-    float intensity = 0.9f;
+    GLfloat intensity = 1.0f;
     glBindBuffer(GL_UNIFORM_BUFFER, ubo_handle);
     glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(GLfloat), &intensity);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
-    glm::vec3 light_color = {0.5f, 0.0f, 0.9f};
+    glm::vec3 light_color = {1.0f, 1.0f, 1.0f};
     glBindBuffer(GL_UNIFORM_BUFFER, ubo_handle);
     glBufferSubData(GL_UNIFORM_BUFFER, sizeof(GLfloat), 4 * sizeof(GLfloat), glm::value_ptr(light_color));
     glBindBuffer(GL_UNIFORM_BUFFER, 0);

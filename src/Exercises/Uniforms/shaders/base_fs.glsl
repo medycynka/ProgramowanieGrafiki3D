@@ -1,6 +1,6 @@
 #version 410
 
-in vec3 vertex_color;
+in vec4 vertex_color;
 layout(location=0) out vec4 vFragColor;
 
 layout(std140) uniform Modifiers {
@@ -9,6 +9,8 @@ layout(std140) uniform Modifiers {
 };
 
 void main() {
-    vFragColor.a = light_intensity;
-    vFragColor.rgb = light_color * vertex_color;
+    vFragColor.a = vertex_color.a;
+    vFragColor.rgb = light_intensity * light_color * vertex_color.rgb;
+    //vFragColor.xyz = vertex_color;
+//    vFragColor.w = 1.0f;
 }

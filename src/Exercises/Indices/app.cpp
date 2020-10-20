@@ -24,23 +24,27 @@ void SimpleShapeApplication::init() {
     }
 
     std::vector<GLushort> indices = {
-            0, 1, 2, 3, 1, 0, 3, 4, 1, /* first house */
-            5, 6, 7, 8, 6, 5, 8, 9, 6, /* second house */
-            10, 11, 12, 13, 10, 12, /* first house door */
-            14, 15, 16, 17, 14, 16, /* second house door */
-            18, 19, 20, 21, 18, 20, /* first house window */
-            22, 23, 24, 25, 22, 24 /* second house window */
+            0, 1, 2, 3, 4, 5, 3, 6, 4, /* first house */
+            7, 8, 9, 10, 11, 12, 10, 13, 11, /* second house */
+            14, 15, 16, 17, 14, 16, /* first house door */
+            18, 19, 20, 21, 18, 20, /* second house door */
+            22, 23, 24, 25, 22, 24, /* first house window */
+            26, 27, 28, 29, 26, 28 /* second house window */
     };
     std::vector<GLfloat> vertices = {
             -0.8f, 0.5f, 0.0f, /* first vertex */ 0.9f, 0.3f, 0.0f, /* color */
             -0.1f, 0.5f, 0.0f, /* second vertex */ 0.2f, 0.7f, 0.1f,
             -0.45f, 0.8f, 0.0f, /* third vertex */ 0.2f, 0.0f, 0.9f,
             -0.8f, -0.5f, 0.0f, 0.63f, 0.45f, 0.41f,
+            -0.1f, 0.5f, 0.0f, 0.63f, 0.45f, 0.41f,
+            -0.8f, 0.5f, 0.0f, 0.63f, 0.45f, 0.41f,
             -0.1f, -0.5f, 0.0f, 0.63f, 0.45f, 0.41f,
             0.1f, 0.5f, 0.0f, /* second house */ 0.05f, 0.47f, 0.06f,
             0.8f, 0.5f, 0.0f, 0.05f, 0.47f, 0.06f,
             0.45f, 0.8f, 0.0f, 0.05f, 0.47f, 0.06f,
             0.1f, -0.5f, 0.0f, 0.54f, 0.8f, 0.89f,
+            0.8f, 0.5f, 0.0f, 0.54f, 0.8f, 0.89f,
+            0.1f, 0.5f, 0.0f, 0.54f, 0.8f, 0.89f,
             0.8f, -0.5f, 0.0f, 0.54f, 0.8f, 0.89f,
             /* doors */
             -0.4f, -0.5f, -0.1f, 0.53f, 0.23f, 0.0f,
@@ -98,6 +102,6 @@ void SimpleShapeApplication::init() {
 void SimpleShapeApplication::frame() {
     glBindVertexArray(vao_);
 //    glDrawArrays(GL_TRIANGLES, 0, 3 * 6);
-    glDrawElements(GL_TRIANGLES, 21 * 2, GL_UNSIGNED_SHORT, nullptr);
+    glDrawElements(GL_TRIANGLES, 23 * 2, GL_UNSIGNED_SHORT, nullptr);
     glBindVertexArray(0);
 }
