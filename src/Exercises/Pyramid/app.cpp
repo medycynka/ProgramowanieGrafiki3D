@@ -124,7 +124,7 @@ void SimpleShapeApplication::init() {
     glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), &PMV[0]);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
     glBindBufferBase(GL_UNIFORM_BUFFER, 0, ubo_mat);
-
+    
     glClearColor(0.81f, 0.81f, 0.8f, 1.0f);
     int w, h;
     std::tie(w, h) = frame_buffer_size();
