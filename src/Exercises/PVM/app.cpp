@@ -67,7 +67,7 @@ void SimpleShapeApplication::init() {
     if (u_modifiers_index == GL_INVALID_INDEX) {
         std::cout << "Cannot find Modifiers uniform block in program" << "\n";
     } else {
-        glUniformBlockBinding(program, u_modifiers_index, 0);
+        glUniformBlockBinding(program, u_modifiers_index, 1);
     }
 
     auto u_matrix_index = glGetUniformBlockIndex(program, "Matrices");
@@ -100,7 +100,7 @@ void SimpleShapeApplication::init() {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     float light_intensity = 0.9f;
-    float light_color[3] = { 0.52f, 0.71f, 1.0f };
+    float light_color[3] = { 0.2f, 0.71f, 1.0f };
     GLuint ubo_handle(0u);
     glGenBuffers(1, &ubo_handle);
     glBindBuffer(GL_UNIFORM_BUFFER, ubo_handle);
@@ -108,14 +108,14 @@ void SimpleShapeApplication::init() {
     glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float), &light_intensity);
     glBufferSubData(GL_UNIFORM_BUFFER, 4 * sizeof(float), 3 * sizeof(float), light_color);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
-    glBindBufferBase(GL_UNIFORM_BUFFER, 0, ubo_handle);
+    glBindBufferBase(GL_UNIFORM_BUFFER, 1, ubo_handle);
 
     glm::mat4 M(1.0f);
-    glm::vec3 cameraPos = {-1.0f, 0.0f,  -3.0f};
-    glm::vec3 cameraCenter = {-0.5f, 1.0f, 0.0f};
-    glm::vec3 cameraUp = {0.0f, 1.0f, 1.0f};
+    glm::vec3 cameraPos = {-3.0f, 1.0f,  2.0f};
+    glm::vec3 cameraCenter = {0.0f, 0.0f, 0.0f};
+    glm::vec3 cameraUp = {0.0f, 1.0f, 0.0f};
     glm::mat4 V = glm::lookAt(cameraPos, cameraCenter, cameraUp);
-    glm::mat4 P = glm::perspective(glm::pi<float>() / 2, 1.0f, 1.0f, 10.0f);
+    glm::mat4 P = glm::perspective(glm::pi<float>() / 3.0f, 1.0f, 1.0f, 10.0f);
     glm::mat4 PMV = P * M * V;
     GLuint ubo_mat(0u);
     glGenBuffers(1, &ubo_mat);
