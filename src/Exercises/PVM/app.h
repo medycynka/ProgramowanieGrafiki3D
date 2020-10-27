@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include <utility>
 #include <vector>
 
 
@@ -16,12 +17,14 @@
 class SimpleShapeApplication : public xe::Application {
 public:
     SimpleShapeApplication(int width, int height, std::string title, int major = 4, int minor = 1) :
-            Application(width, height, title, major, minor) {}
+            Application(width, height, std::move(title), major, minor), w_{width}, h_{height} {}
 
     void init() override;;
 
     void frame() override;
 
 private:
-    GLuint vao_;
+    GLuint vao_ = 0;
+    int w_;
+    int h_;
 };
