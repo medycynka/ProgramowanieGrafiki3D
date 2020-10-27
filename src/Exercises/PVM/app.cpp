@@ -90,8 +90,8 @@ void SimpleShapeApplication::init() {
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), reinterpret_cast<GLvoid *>(3 * sizeof(GLfloat)));
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    float light_intensity = 0.9f;
-    float light_color[3] = { 0.2f, 0.3f, 0.9f };
+    float light_intensity = 0.2f;
+    float light_color[3] = { 0.52f, 0.71f, 1.0f };
     GLuint ubo_handle(0u);
     glGenBuffers(1, &ubo_handle);
     glBindBuffer(GL_UNIFORM_BUFFER, ubo_handle);
