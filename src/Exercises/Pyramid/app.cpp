@@ -21,46 +21,30 @@ void SimpleShapeApplication::init() {
     }
 
     std::vector<GLushort> indices = {
-            0, 1, 2, 3, 4, 5, 3, 6, 4, /* first house */
-            7, 8, 9, 10, 11, 12, 10, 13, 11, /* second house */
-            14, 15, 16, 17, 14, 16, /* first house door */
-            18, 19, 20, 21, 18, 20, /* second house door */
-            22, 23, 24, 25, 22, 24, /* first house window */
-            26, 27, 28, 29, 26, 28 /* second house window */
+            0, 1, 2, 2, 3, 0, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
     };
     std::vector<GLfloat> vertices = {
-            -0.8f, 0.5f, 0.0f, /* first vertex */ 0.9f, 0.3f, 0.0f, /* color */
-            -0.1f, 0.5f, 0.0f, /* second vertex */ 0.2f, 0.7f, 0.1f,
-            -0.45f, 0.8f, 0.0f, /* third vertex */ 0.2f, 0.0f, 0.9f,
-            -0.8f, -0.5f, 0.0f, 0.63f, 0.45f, 0.41f,
-            -0.1f, 0.5f, 0.0f, 0.63f, 0.45f, 0.41f,
-            -0.8f, 0.5f, 0.0f, 0.63f, 0.45f, 0.41f,
-            -0.1f, -0.5f, 0.0f, 0.63f, 0.45f, 0.41f,
-            0.1f, 0.5f, 0.0f, /* second house */ 0.05f, 0.47f, 0.06f,
-            0.8f, 0.5f, 0.0f, 0.05f, 0.47f, 0.06f,
-            0.45f, 0.8f, 0.0f, 0.05f, 0.47f, 0.06f,
-            0.1f, -0.5f, 0.0f, 0.54f, 0.8f, 0.89f,
-            0.8f, 0.5f, 0.0f, 0.54f, 0.8f, 0.89f,
-            0.1f, 0.5f, 0.0f, 0.54f, 0.8f, 0.89f,
-            0.8f, -0.5f, 0.0f, 0.54f, 0.8f, 0.89f,
-            /* doors */
-            -0.4f, -0.5f, -0.1f, 0.53f, 0.23f, 0.0f,
-            -0.2f, -0.5f, -0.1f, 0.43f, 0.16f, 0.0f,
-            -0.2f, -0.05f, -0.1f, 0.43f, 0.16f, 0.0f,
-            -0.4f, -0.05f, -0.1f, 0.64f, 0.33f, 0.13f,
-            0.5, -0.5f, -0.2f, 0.53f, 0.23f, 0.0f,
-            0.7f, -0.5f, -0.1f, 0.43f, 0.16f, 0.0f,
-            0.7f, -0.05f, -0.1f, 0.43f, 0.16f, 0.0f,
-            0.5f, -0.05f, -0.1f, 0.64f, 0.33f, 0.13f,
-            /* windows */
-            -0.7f, -0.15f, -0.1f, 0.0f, 0.43f, 1.0f,
-            -0.5f, -0.15f, -0.1f, 0.0f, 0.23f, 0.53f,
-            -0.5f, 0.15f, -0.1f, 0.09f, 0.35f, 0.68f,
-            -0.7f, 0.15f, -0.1f, 0.27f, 0.59f, 1.0f,
-            0.2f, -0.15f, -0.1f, 0.0f, 0.43f, 1.0f,
-            0.4f, -0.15f, -0.1f, 0.0f, 0.23f, 0.53f,
-            0.4f, 0.15f, -0.1f, 0.09f, 0.35f, 0.68f,
-            0.2f, 0.15f, -0.1f, 0.27f, 0.59f, 1.0f
+            /* base */
+            -0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
+            0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
+            0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
+            -0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
+            /* front wall */
+            -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+            0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+            0.0f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+            /* right wall */
+            0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 1.0f,
+            0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
+            0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
+            /* back wall */
+            0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
+            -0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
+            0.0f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f,
+            /* left wall */
+            -0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 1.0f,
+            -0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 1.0f,
+            0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f
     };
 
     auto u_modifiers_index = glGetUniformBlockIndex(program, "Modifiers");
@@ -111,7 +95,7 @@ void SimpleShapeApplication::init() {
     glBindBufferBase(GL_UNIFORM_BUFFER, 1, ubo_handle);
 
     glm::mat4 M(1.0f);
-    glm::vec3 cameraPos = {-3.0f, 1.0f,  2.0f};
+    glm::vec3 cameraPos = {2.0f, 3.0f,  1.0f};
     glm::vec3 cameraCenter = {0.0f, 0.0f, 0.0f};
     glm::vec3 cameraUp = {0.0f, 1.0f, 0.0f};
     glm::mat4 V = glm::lookAt(cameraPos, cameraCenter, cameraUp);
@@ -136,6 +120,6 @@ void SimpleShapeApplication::init() {
 
 void SimpleShapeApplication::frame() {
     glBindVertexArray(vao_);
-    glDrawElements(GL_TRIANGLES, 23 * 2, GL_UNSIGNED_SHORT, nullptr);
+    glDrawElements(GL_TRIANGLES, 18, GL_UNSIGNED_SHORT, nullptr);
     glBindVertexArray(0);
 }
