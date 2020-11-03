@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(Zooming)
+project(Exercise_08_WindowResize)
 
 set(CMAKE_CXX_STANDARD 14)
 
@@ -7,8 +7,6 @@ add_compile_definitions(PROJECT_NAME="${PROJECT_NAME}" PROJECT_DIR="${CMAKE_CURR
 
 add_executable(${PROJECT_NAME}
         main.cpp
-        camera.h
-        camera.cpp
         app.h
         app.cpp
         $<TARGET_OBJECTS:glad>

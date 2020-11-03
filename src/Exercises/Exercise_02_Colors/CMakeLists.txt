@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(Triangle)
+project(Exercise_02_Colors)
 
 set(CMAKE_CXX_STANDARD 14)
 

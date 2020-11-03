@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(Pyramid)
+project(Exercise_04_Uniforms)
 
 set(CMAKE_CXX_STANDARD 14)
 
