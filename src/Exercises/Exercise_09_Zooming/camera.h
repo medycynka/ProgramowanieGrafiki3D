@@ -20,14 +20,6 @@ public:
 
     glm::mat4 projection() const;
 
-    static float logistic(float y) {
-        return 1.0f / (1.0f + std::exp(-y));
-    }
-
-    static float inverse_logistic(float x) {
-        return std::log(x / (1.0f - x));
-    }
-
     void zoom(float y_offset);
 
 private:
@@ -38,5 +30,13 @@ private:
 
     glm::mat4 V_;
 };
+
+static float logistic(float y) {
+    return 1.0f / (1.0f + std::exp(-y));
+}
+
+static float inverse_logistic(float x) {
+    return std::log(x / (1.0f - x));
+}
 
 #endif //INC_3DGRAPHICSEXAMPLES_CAMERA_H
