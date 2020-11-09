@@ -106,7 +106,7 @@ void SimpleShapeApplication::init() {
     glClearColor(0.81f, 0.81f, 0.8f, 1.0f);
     int w, h;
     std::tie(w, h) = frame_buffer_size();
-    camera_->perspective((float)w / (float)h, glm::pi<float>()/4.0, 0.1f, 100.0f);
+    camera_->perspective(glm::pi<float>()/4.0, (float)w / (float)h, 0.1f, 100.0f);
     camera_->look_at(cameraPos, cameraCenter, cameraUp);
     M_ = glm::mat4(1.0f);
     glViewport(0, 0, w, h);
@@ -135,6 +135,7 @@ void SimpleShapeApplication::frame() {
 
 void SimpleShapeApplication::framebuffer_resize_callback(int w, int h) {
     Application::framebuffer_resize_callback(w, h);
+    glViewport(0, 0, w, h);
     camera_->set_aspect((float) w / (float)h);
 }
 

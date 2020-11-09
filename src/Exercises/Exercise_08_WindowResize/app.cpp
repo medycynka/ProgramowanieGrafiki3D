@@ -136,6 +136,7 @@ void SimpleShapeApplication::frame() {
 
 void SimpleShapeApplication::framebuffer_resize_callback(int w, int h) {
     Application::framebuffer_resize_callback(w, h);
+    glViewport(0, 0, w, h);
     aspect_ = (float) w / h;
     P_ = glm::perspective(fov_, aspect_, near_, far_);
 }
