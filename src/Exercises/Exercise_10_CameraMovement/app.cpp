@@ -97,7 +97,7 @@ void SimpleShapeApplication::init() {
     glBindBufferBase(GL_UNIFORM_BUFFER, 1, ubo_handle);
 
     // Camera starting position for scaling, zooming and moving
-    glm::vec3 cameraPos = {2.0f, 3.0f,  1.0f};
+    glm::vec3 cameraPos = {0.0f, 0.0f,  3.0f};
     glm::vec3 cameraCenter = {0.0f, 0.0f, 0.0f};
     glm::vec3 cameraUp = {0.0f, 1.0f, 0.0f};
 
