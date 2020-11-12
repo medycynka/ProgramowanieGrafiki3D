@@ -110,12 +110,15 @@ void SimpleShapeApplication::init() {
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
     glBindBufferBase(GL_UNIFORM_BUFFER, 1, ubo_handle);
 
+    int w, h;
+    std::tie(w, h) = frame_buffer_size();
+
     glm::mat4 M(1.0f);
     glm::vec3 cameraPos = {-3.0f, 1.0f,  2.0f};
     glm::vec3 cameraCenter = {0.0f, 0.0f, 0.0f};
     glm::vec3 cameraUp = {0.0f, 1.0f, 0.0f};
     glm::mat4 V = glm::lookAt(cameraPos, cameraCenter, cameraUp);
-    glm::mat4 P = glm::perspective(glm::pi<float>() / 3.0f, 1.0f, 1.0f, 10.0f);
+    glm::mat4 P = glm::perspective(glm::pi<float>() / 3.0f, (float)w / (float)h, 1.0f, 10.0f);
     glm::mat4 PMV = P * M * V;
     GLuint ubo_mat(0u);
     glGenBuffers(1, &ubo_mat);
@@ -126,8 +129,6 @@ void SimpleShapeApplication::init() {
     glBindBufferBase(GL_UNIFORM_BUFFER, 0, ubo_mat);
 
     glClearColor(0.81f, 0.81f, 0.8f, 1.0f);
-    int w, h;
-    std::tie(w, h) = frame_buffer_size();
     glViewport(0, 0, w, h);
 
     glEnable(GL_DEPTH_TEST);
