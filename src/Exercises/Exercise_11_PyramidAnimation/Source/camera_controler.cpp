@@ -1,4 +1,4 @@
-#include "camera_controler.h"
+#include "Exercises/Exercise_11_PyramidAnimation/Headers/camera_controler.h"
 
 void CameraControler::update_scale(int w, int h) {
     scale_ = (float)w / (float)h * scale_coefficient;

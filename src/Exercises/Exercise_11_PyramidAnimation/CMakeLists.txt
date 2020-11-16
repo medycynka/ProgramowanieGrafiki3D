@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(Exercise_10_CameraMovement)
+project(Exercise_11_PyramidAnimation)
 
 set(CMAKE_CXX_STANDARD 14)
 
@@ -12,6 +12,8 @@ add_executable(${PROJECT_NAME}
         Source/camera.cpp
         Headers/camera_controler.h
         Source/camera_controler.cpp
+        Headers/pyramid.h
+        Source/pyramid.cpp
         Headers/app.h
         Source/app.cpp
         $<TARGET_OBJECTS:glad>

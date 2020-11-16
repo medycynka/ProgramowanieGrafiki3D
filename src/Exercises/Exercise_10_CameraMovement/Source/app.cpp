@@ -2,7 +2,7 @@
 // Created by pbialas on 25.09.2020.
 //
 
-#include "app.h"
+#include "Exercises/Exercise_10_CameraMovement/Headers/app.h"
 
 #include <iostream>
 #include <vector>
