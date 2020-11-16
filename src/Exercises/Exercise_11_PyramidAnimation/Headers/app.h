@@ -67,6 +67,8 @@ public:
 
     CameraControler* controler() { return controler_; }
 
+    void draw_and_send_pmv(const glm::mat4 &pmv_);
+
 private:
     std::allocator<Camera> al_{};
     std::allocator<CameraControler> cc_al_{};

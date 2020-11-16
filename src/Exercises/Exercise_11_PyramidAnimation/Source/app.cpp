@@ -64,54 +64,31 @@ void SimpleShapeApplication::frame() {
     auto now = std::chrono::steady_clock::now();
     auto elapsed_time = std::chrono::duration_cast<std::chrono::duration<float>>(now - start_).count();
 
-    // Calculate pyramids rotations
+    // Calculate moon rotations
     auto rotation_angle = 2.0f * glm::pi<float>() * elapsed_time / moon_rotation_period;
     auto orbital_rotation_angle = 2.0f * glm::pi<float>() * elapsed_time / moon_rotation_period;
     R_moon = glm::rotate(glm::mat4(1.0f), rotation_angle, axis_);
     O_moon = glm::translate(glm::mat4(1.0f), {r_moon * cos(orbital_rotation_angle), 0.0f, r_moon * sin(orbital_rotation_angle)});
+    PMV_moon = camera_->projection() * M_ * camera_->view() * O_ * O_moon * R_ * S_moon;
 
+    // Calculate satellite rotations
     rotation_angle = 2.0f * glm::pi<float>() * elapsed_time / 0.5f;
     orbital_rotation_angle = 2.0f * glm::pi<float>() * elapsed_time / satellite_rotation_period;
     R_satellite = glm::rotate(glm::mat4(1.0f), rotation_angle, satellite_axis);
     O_satellite = glm::translate(glm::mat4(1.0f), {r_satellite * cos(orbital_rotation_angle), r_satellite * sin(orbital_rotation_angle), 0.0f});
+    PMV_satellite = camera_->projection() * M_ * camera_->view() * O_ * O_satellite * R_satellite * S_satellite;
 
+    // Calculate earth rotations
     rotation_angle = 2.0f * glm::pi<float>() * elapsed_time / rotation_period;
     orbital_rotation_angle = 2.0f * glm::pi<float>() * elapsed_time / orbital_rotation_period;
     R_ = glm::rotate(glm::mat4(1.0f), rotation_angle, axis_);
     O_ = glm::translate(glm::mat4(1.0f), {a * cos(orbital_rotation_angle), 0.0f, b * sin(orbital_rotation_angle)});
-
-
-    pyramid_->draw();
-    // sending updated pvm matrix to shader
-    PMV_moon = camera_->projection() * M_ * camera_->view() * O_ * O_moon * R_ * S_moon;
-    glGenBuffers(1, &u_pvm_buffer);
-    glBindBuffer(GL_UNIFORM_BUFFER, u_pvm_buffer);
-    glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), nullptr, GL_STATIC_DRAW);
-    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), &PMV_moon[0]);
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
-    glBindBufferBase(GL_UNIFORM_BUFFER, 0, u_pvm_buffer);
-
-
-    pyramid_->draw();
-    // sending updated pvm matrix to shader
-    PMV_satellite = camera_->projection() * M_ * camera_->view() * O_ * O_satellite * R_satellite * S_satellite;
-    glGenBuffers(1, &u_pvm_buffer);
-    glBindBuffer(GL_UNIFORM_BUFFER, u_pvm_buffer);
-    glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), nullptr, GL_STATIC_DRAW);
-    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), &PMV_satellite[0]);
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
-    glBindBufferBase(GL_UNIFORM_BUFFER, 0, u_pvm_buffer);
-
-
-    pyramid_->draw();
-    // sending updated pvm matrix to shader
     PMV_ = camera_->projection() * M_ * camera_->view() * O_ * R_;
-    glGenBuffers(1, &u_pvm_buffer);
-    glBindBuffer(GL_UNIFORM_BUFFER, u_pvm_buffer);
-    glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), nullptr, GL_STATIC_DRAW);
-    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), &PMV_[0]);
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
-    glBindBufferBase(GL_UNIFORM_BUFFER, 0, u_pvm_buffer);
+
+    // Drawing pyramids and sending pmv matrix to the shader
+    draw_and_send_pmv(PMV_moon);
+    draw_and_send_pmv(PMV_satellite);
+    draw_and_send_pmv(PMV_);
 }
 
 void SimpleShapeApplication::framebuffer_resize_callback(int w, int h) {
@@ -151,4 +128,16 @@ void SimpleShapeApplication::cursor_position_callback(double x, double y) {
     if(controler_){
         controler_->mouse_moved((float)x, (float)y);
     }
+}
+
+void SimpleShapeApplication::draw_and_send_pmv(const glm::mat4 &pmv_) {
+    pyramid_->draw();
+
+    // sending updated pvm matrix to shader
+    glGenBuffers(1, &u_pvm_buffer);
+    glBindBuffer(GL_UNIFORM_BUFFER, u_pvm_buffer);
+    glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), nullptr, GL_STATIC_DRAW);
+    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), &pmv_[0]);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    glBindBufferBase(GL_UNIFORM_BUFFER, 0, u_pvm_buffer);
 }
