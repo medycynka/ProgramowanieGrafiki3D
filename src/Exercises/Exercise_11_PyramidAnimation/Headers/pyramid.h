@@ -10,13 +10,13 @@
 class Pyramid  {
 public:
     Pyramid();
-    ~Pyramid();
+    ~Pyramid() = default;
 
     void draw() const;
 
 private:
-    GLuint vao_;
-    GLuint buffer_[2];   // [0] - index buffer, [1] - vertex buffer
+    GLuint vao_{0};
+    GLuint buffer_[2] = {0, 0};   // [0] - index buffer, [1] - vertex buffer
     std::vector<GLushort> indices = {
             0, 1, 2, 2, 3, 0, 6, 5, 4, 9, 8, 7, 12, 11, 10, 15, 14, 13
     };

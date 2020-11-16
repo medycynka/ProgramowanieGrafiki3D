@@ -32,7 +32,7 @@ public:
     void LMB_released(float x, float y);
 
 private:
-    static constexpr float scale_coefficient{0.01f};
+    constexpr static const float scale_coefficient{0.01f};
 
     std::allocator<Camera> al_;
     Camera *camera_;

@@ -5,9 +5,7 @@
 #include "Exercises/Exercise_11_PyramidAnimation/Headers/app.h"
 
 #include <iostream>
-#include <vector>
 #include <tuple>
-#include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
 
 #include "Application/utils.h"
@@ -18,12 +16,8 @@ void SimpleShapeApplication::init() {
 
     if (!program) {
         std::cerr << "Cannot create program from " << std::string(PROJECT_DIR) + "/shaders/base_vs.glsl" << " and ";
-        std::cerr << std::string(PROJECT_DIR) + "/shaders/base_fs.glsl" << " shader files" << std::endl;
+        std::cerr << std::string(PROJECT_DIR) + "/shaders/base_fs.glsl" << " shader files" << "\n";
     }
-
-    // Create a pyramid pointer
-    pyramid_ = p_al_.allocate(1);
-    p_al_.construct(pyramid_);
 
     // uniform blocks
     auto u_matrix_index = glGetUniformBlockIndex(program, "Matrices");
@@ -42,10 +36,26 @@ void SimpleShapeApplication::init() {
     int w, h;
     std::tie(w, h) = frame_buffer_size();
 
+    // Creating pyramid, camera and camera controller pointers and initializing them
+    pyramid_ = p_al_.allocate(1);
+    p_al_.construct(pyramid_);
+    if(!pyramid_){
+        std::cerr << "Couldn't create pyramid pointer." << "\n";
+    }
+
     camera_ = create_camera();
-    controler_ = create_camera_controler(w, h);
+    if(!camera_){
+        std::cerr << "Couldn't create camera pointer." << "\n";
+    }
+
+    controller_ = create_camera_controller(w, h);
+    if(!controller_){
+        std::cerr << "Couldn't create camera controller pointer." << "\n";
+    }
+
     camera_->perspective(glm::pi<float>()/4.0, (float)w / (float)h, 0.1f, 100.0f);
     camera_->look_at(cameraPos, cameraCenter, cameraUp);
+
     M_ = glm::mat4(1.0f);
     S_moon = glm::scale(glm::vec3(0.5f, 0.5f, 0.5f));
     S_satellite = glm::scale(glm::vec3(0.25f, 0.25f, 0.25f));
@@ -64,26 +74,27 @@ void SimpleShapeApplication::frame() {
     auto now = std::chrono::steady_clock::now();
     auto elapsed_time = std::chrono::duration_cast<std::chrono::duration<float>>(now - start_).count();
 
-    // Calculate moon rotations
-    auto rotation_angle = 2.0f * glm::pi<float>() * elapsed_time / moon_rotation_period;
-    auto orbital_rotation_angle = 2.0f * glm::pi<float>() * elapsed_time / moon_rotation_period;
-    R_moon = glm::rotate(glm::mat4(1.0f), rotation_angle, axis_);
-    O_moon = glm::translate(glm::mat4(1.0f), {r_moon * cos(orbital_rotation_angle), 0.0f, r_moon * sin(orbital_rotation_angle)});
-    PMV_moon = camera_->projection() * M_ * camera_->view() * O_ * O_moon * R_ * S_moon;
-
-    // Calculate satellite rotations
-    rotation_angle = 2.0f * glm::pi<float>() * elapsed_time / 0.5f;
-    orbital_rotation_angle = 2.0f * glm::pi<float>() * elapsed_time / satellite_rotation_period;
-    R_satellite = glm::rotate(glm::mat4(1.0f), rotation_angle, satellite_axis);
-    O_satellite = glm::translate(glm::mat4(1.0f), {r_satellite * cos(orbital_rotation_angle), r_satellite * sin(orbital_rotation_angle), 0.0f});
-    PMV_satellite = camera_->projection() * M_ * camera_->view() * O_ * O_satellite * R_satellite * S_satellite;
-
-    // Calculate earth rotations
-    rotation_angle = 2.0f * glm::pi<float>() * elapsed_time / rotation_period;
-    orbital_rotation_angle = 2.0f * glm::pi<float>() * elapsed_time / orbital_rotation_period;
-    R_ = glm::rotate(glm::mat4(1.0f), rotation_angle, axis_);
-    O_ = glm::translate(glm::mat4(1.0f), {a * cos(orbital_rotation_angle), 0.0f, b * sin(orbital_rotation_angle)});
-    PMV_ = camera_->projection() * M_ * camera_->view() * O_ * R_;
+    // Calculating extended pmv matrices for every pyramid
+    // Moon
+    auto rotation_angle = doublePI_ * elapsed_time / moon_rotation_period;
+    auto orbital_rotation_angle = doublePI_ * elapsed_time / moon_rotation_period;
+    R_moon = glm::rotate(M_, rotation_angle, axis_);
+    O_moon = glm::translate(M_, {r_moon * cos(orbital_rotation_angle), 0.0f, r_moon * sin(orbital_rotation_angle)});
+    // Satellite
+    rotation_angle = doublePI_ * elapsed_time / satellite_rotation_period;
+    orbital_rotation_angle = doublePI_ * elapsed_time / satellite_rotation_period;
+    R_satellite = glm::rotate(M_, rotation_angle, satellite_axis);
+    O_satellite = glm::translate(M_, {r_satellite * cos(orbital_rotation_angle), r_satellite * sin(orbital_rotation_angle), 0.0f});
+    // Earth
+    rotation_angle = doublePI_ * elapsed_time / rotation_period;
+    orbital_rotation_angle = doublePI_ * elapsed_time / orbital_rotation_period;
+    R_ = glm::rotate(M_, rotation_angle, axis_);
+    O_ = glm::translate(M_, {a * cos(orbital_rotation_angle), 0.0f, b * sin(orbital_rotation_angle)});
+    // PMV matrices
+    PMV_basic = camera_->projection() * M_ * camera_->view() * O_;
+    PMV_moon = PMV_basic * O_moon * R_ * S_moon;
+    PMV_satellite = PMV_basic * O_satellite * R_satellite * S_satellite;
+    PMV_ = PMV_basic * R_;
 
     // Drawing pyramids and sending pmv matrix to the shader
     draw_and_send_pmv(PMV_moon);
@@ -95,7 +106,7 @@ void SimpleShapeApplication::framebuffer_resize_callback(int w, int h) {
     Application::framebuffer_resize_callback(w, h);
     glViewport(0, 0, w, h);
     camera_->set_aspect((float) w / (float)h);
-    controler_->update_scale(w, h);
+    controller_->update_scale(w, h);
 }
 
 void SimpleShapeApplication::scroll_callback(double xoffset, double yoffset) {
@@ -106,18 +117,18 @@ void SimpleShapeApplication::scroll_callback(double xoffset, double yoffset) {
 void SimpleShapeApplication::mouse_button_callback(int button, int action, int mods) {
     Application::mouse_button_callback(button, action, mods);
 
-    if(controler_){
+    if(controller_){
         double x;
         double y;
 
         glfwGetCursorPos(window_, &x, &y);
 
         if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
-            controler_->LMB_pressed((float)x, (float)y);
+            controller_->LMB_pressed((float)x, (float)y);
         }
 
         if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
-            controler_->LMB_released((float)x, (float)y);
+            controller_->LMB_released((float)x, (float)y);
         }
     }
 }
@@ -125,8 +136,8 @@ void SimpleShapeApplication::mouse_button_callback(int button, int action, int m
 void SimpleShapeApplication::cursor_position_callback(double x, double y) {
     Application::cursor_position_callback(x, y);
 
-    if(controler_){
-        controler_->mouse_moved((float)x, (float)y);
+    if(controller_){
+        controller_->mouse_moved((float)x, (float)y);
     }
 }
 

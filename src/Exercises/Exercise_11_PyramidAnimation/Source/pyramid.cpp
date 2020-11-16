@@ -2,10 +2,7 @@
 
 
 Pyramid::Pyramid() {
-    /*
-        Tu dodajemy kod tworzący bufory indeksów i wierzchołków oraz obiekt VAO,
-        Potem ładujemy dane wierzchołków i indeksow do buforów  i  podłaczamy je do atrubutów w szaderze
-   */
+    // Sending indices and vertices buffers to shaders
     glGenBuffers(1, &buffer_[0]);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer_[0]);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLushort), indices.data(), GL_STATIC_DRAW);
@@ -25,10 +22,6 @@ Pyramid::Pyramid() {
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), reinterpret_cast<GLvoid *>(3 * sizeof(GLfloat)));
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
-
-Pyramid::~Pyramid() {
-    //Tu usuwamy VAO i bufory
 }
 
 void Pyramid::draw() const {

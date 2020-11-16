@@ -44,12 +44,12 @@ glm::mat4 Camera::projection() const {
 }
 
 void Camera::zoom(float y_offset) {
-    auto x = fov_ / glm::pi<float>();
+    auto x = fov_ / PI_;
     auto y = inverse_logistic(x);
 
     y += y_offset;
     x = logistic(y);
-    fov_ = x * glm::pi<float>();
+    fov_ = x * PI_;
 }
 
 glm::vec3 Camera::x() const {

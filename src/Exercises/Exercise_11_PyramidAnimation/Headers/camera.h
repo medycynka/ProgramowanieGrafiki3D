@@ -47,6 +47,8 @@ private:
     glm::vec3 x_;
     glm::vec3 y_;
     glm::vec3 z_;
+
+    constexpr static const float PI_ = glm::pi<float>();
 };
 
 static float logistic(float y) {
