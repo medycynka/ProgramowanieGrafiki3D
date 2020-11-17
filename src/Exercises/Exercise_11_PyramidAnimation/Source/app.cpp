@@ -2,7 +2,7 @@
 // Created by pbialas on 25.09.2020.
 //
 
-#include "../Headers/app.h"
+#include "Exercises/Exercise_11_PyramidAnimation/Headers/app.h"
 
 #include <iostream>
 #include <tuple>
@@ -80,22 +80,19 @@ void SimpleShapeApplication::frame() {
     auto orbital_rotation_angle = doublePI_ * elapsed_time / moon_rotation_period;
     R_moon = glm::rotate(M_, rotation_angle, axis_);
     O_moon = glm::translate(M_, {r_moon * cos(orbital_rotation_angle), 0.0f, r_moon * sin(orbital_rotation_angle)});
-
     // Satellite
     rotation_angle = doublePI_ * elapsed_time / satellite_rotation_period;
     orbital_rotation_angle = doublePI_ * elapsed_time / satellite_rotation_period;
     R_satellite = glm::rotate(M_, rotation_angle, satellite_axis);
     O_satellite = glm::translate(M_, {r_satellite * cos(orbital_rotation_angle), r_satellite * sin(orbital_rotation_angle), 0.0f});
-
     // Earth
     rotation_angle = doublePI_ * elapsed_time / rotation_period;
     orbital_rotation_angle = doublePI_ * elapsed_time / orbital_rotation_period;
     R_ = glm::rotate(M_, rotation_angle, axis_);
     O_ = glm::translate(M_, {a * cos(orbital_rotation_angle), 0.0f, b * sin(orbital_rotation_angle)});
-
     // PMV matrices
     PMV_basic = camera_->projection() * M_ * camera_->view() * O_;
-    PMV_moon = PMV_basic * O_moon * R_moon * S_moon;
+    PMV_moon = PMV_basic * O_moon * R_ * S_moon;
     PMV_satellite = PMV_basic * O_satellite * R_satellite * S_satellite;
     PMV_ = PMV_basic * R_;
 

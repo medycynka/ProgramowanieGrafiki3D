@@ -1,4 +1,4 @@
-#include "../Headers/camera.h"
+#include "Exercises/Exercise_10_CameraMovement/Headers/camera.h"
 
 void Camera::look_at(const glm::vec3 &eye, const glm::vec3 &center, const glm::vec3 &up) {
     z_ = glm::normalize(eye - center);
