@@ -1,3 +1,0 @@
-D:\Programy\JetBrains\apps\CLion\ch-0\202.7319.72\bin\cmake\win\bin\cmake.exe -E rm -f CMakeFiles\Triangle.dir/objects.a
-E:\Programy\MinGW\mingw64\bin\ar.exe cr CMakeFiles\Triangle.dir/objects.a @CMakeFiles\Triangle.dir\objects1.rsp
-E:\Programy\MinGW\mingw64\bin\g++.exe -g   -Wl,--whole-archive CMakeFiles\Triangle.dir/objects.a -Wl,--no-whole-archive  -o Triangle.exe -Wl,--out-implib,libTriangle.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Triangle.dir\linklibs.rsp

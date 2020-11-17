@@ -1,5 +1,0 @@
-D:\Programy\JetBrains\apps\CLion\ch-0\202.7319.72\bin\cmake\win\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" "E:\Infa\Studia\Rok4\Programowanie Grafiki 3D"
--- Using Win32 for window creation
--- Configuring done
--- Generating done
--- Build files have been written to: E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/cmake-build-debug
