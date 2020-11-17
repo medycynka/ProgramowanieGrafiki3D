@@ -2,7 +2,7 @@
 // Created by pbialas on 25.09.2020.
 //
 
-#include "Exercises/Exercise_11_PyramidAnimation/Headers/app.h"
+#include "../Headers/app.h"
 
 #include <iostream>
 #include <tuple>

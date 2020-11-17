@@ -1,4 +1,4 @@
-#include "Exercises/Exercise_11_PyramidAnimation/Headers/pyramid.h"
+#include "../Headers/pyramid.h"
 
 
 Pyramid::Pyramid() {
