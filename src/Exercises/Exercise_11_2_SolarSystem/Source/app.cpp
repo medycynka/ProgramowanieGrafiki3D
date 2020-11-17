@@ -176,7 +176,7 @@ void SimpleShapeApplication::calculate_solar_system_pmv(float elapsed_time) {
 
     // Satellite
     rotation_angle = piTime / satellite_rotation_period;
-    orbital_rotation_angle = piTime / satellite_rotation_period;
+    orbital_rotation_angle = piTime / satellite_orbital_rotation_period;
     R_satellite = glm::rotate(M_, rotation_angle, satellite_axis);
     O_satellite = glm::translate(M_, {r_satellite * cos(orbital_rotation_angle), r_satellite * sin(orbital_rotation_angle), 0.0f});
     PMV_satellite = PMV_earth_basic * O_satellite * R_satellite * S_satellite;

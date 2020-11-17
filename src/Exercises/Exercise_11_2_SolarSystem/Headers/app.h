@@ -136,43 +136,72 @@ private:
     // Constants
     constexpr static const float PI_ = glm::pi<float>();
     constexpr static const float doublePI_ = 2.0f * PI_;
-    //Sun
-    constexpr static const float r_sun = 0.05f;
-    constexpr static const float sun_rotation_period = 21.0f;
-    constexpr static const float sun_orbital_rotation_period = 250.0f;
-    // Mercury
-    constexpr static const float mercury_rotation_period = 234.58f;
-    constexpr static const float mercury_orbital_rotation_period = 83.04f;
-    constexpr static const float mercury_a = 6.0f;
-    constexpr static const float mercury_b = 4.8f;
-    // Venus
-    constexpr static const float venus_rotation_period = 109.29f;
-    constexpr static const float venus_orbital_rotation_period = 32.52f;
-    constexpr static const float venus_a = 8.4f;
-    constexpr static const float venus_b = 10.5f;
     // Earth
     constexpr static const float rotation_period = 4.0f;
     constexpr static const float orbital_rotation_period = 20.0f;
     constexpr static const float earth_a = 15.0f;
     constexpr static const float earth_b = 12.0f;
+    //Sun
+    constexpr static const float r_sun = 0.05f;
+    constexpr static const float sun_rotation_period = rotation_period * 25.44f;
+    constexpr static const float sun_orbital_rotation_period = 250.0f;
+    // Mercury
+    constexpr static const float mercury_rotation_period = rotation_period * 58.87f;
+    constexpr static const float mercury_orbital_rotation_period = orbital_rotation_period * 0.24f;
+    constexpr static const float mercury_a = earth_a * 0.39f;
+    constexpr static const float mercury_b = earth_b * 0.39f;
+    // Venus
+    constexpr static const float venus_rotation_period = rotation_period * 243.68f;
+    constexpr static const float venus_orbital_rotation_period = orbital_rotation_period * 0.62f;
+    constexpr static const float venus_a = earth_b * 0.72f;
+    constexpr static const float venus_b = earth_a * 0.72f;
     // Moon
-    constexpr static const float moon_rotation_period = 109.6f;
-    constexpr static const float moon_orbital_rotation_period = 109.6f;
+    constexpr static const float moon_rotation_period = rotation_period * 27.4f;
+    constexpr static const float moon_orbital_rotation_period = rotation_period * 27.4f;
     constexpr static const float r_moon = 3.0f;
     // Satellite
-    constexpr static const float satellite_rotation_period = 2.0f;
+    constexpr static const float satellite_rotation_period = 1.0f;
+    constexpr static const float satellite_orbital_rotation_period = 2.0f;
     constexpr static const float r_satellite = 1.5f;
     // Mars
-    constexpr static const float mars_rotation_period = 4.104f;
-    constexpr static const float mars_orbital_rotation_period = 37.63f;
-    constexpr static const float mars_a = 22.86f;
-    constexpr static const float mars_b = 18.29f;
+    constexpr static const float mars_rotation_period = rotation_period * 1.03f;
+    constexpr static const float mars_orbital_rotation_period = orbital_rotation_period * 1.88f;
+    constexpr static const float mars_a = earth_b * 1.52f;
+    constexpr static const float mars_b = earth_a * 1.52f;
     // Phobos
     constexpr static const float phobos_rotation_period = 1.0f;
     constexpr static const float phobos_orbital_rotation_period = 1.0f;
-    constexpr static const float phobos_r = 1.25;
+    constexpr static const float phobos_r = 1.0f;
     // Deimos
     constexpr static const float deimos_rotation_period = 6.0f;
     constexpr static const float deimos_orbital_rotation_period = 4.0f;
-    constexpr static const float deimos_r = 2;
+    constexpr static const float deimos_r = 1.75f;
+    // earth would be ~1 pixel if we want to see every planet
+    // Jupiter
+    /*
+    constexpr static const float jupiter_rotation_period = rotation_period * 0.42f;
+    constexpr static const float jupiter_orbital_rotation_period = orbital_rotation_period * 11.82f;
+    constexpr static const float jupiter_a = earth_a * 5.21f;
+    constexpr static const float jupiter_b = earth_b * 5.21f;
+    // Saturn
+    constexpr static const float saturn_rotation_period = rotation_period * 1.07f;
+    constexpr static const float saturn_orbital_rotation_period = orbital_rotation_period * 29.46f;
+    constexpr static const float saturn_a = earth_b * 9.58f;
+    constexpr static const float saturn_b = earth_a * 9.58f;
+    // Uranus
+    constexpr static const float uranus_rotation_period = rotation_period * 0.72f;
+    constexpr static const float uranus_orbital_rotation_period = orbital_rotation_period * 84.02f;
+    constexpr static const float uranus_a = earth_a * 19.23f;
+    constexpr static const float uranus_b = earth_b * 19.23f;
+    // Neptune
+    constexpr static const float neptune_rotation_period = rotation_period * 0.67f;
+    constexpr static const float neptune_orbital_rotation_period = orbital_rotation_period * 164.77f;
+    constexpr static const float neptune_a = earth_b * 30.1f;
+    constexpr static const float neptune_b = earth_a * 30.1f;
+    // Pluto
+    constexpr static const float pluto_rotation_period = rotation_period * 6.41;
+    constexpr static const float pluto_orbital_rotation_period = orbital_rotation_period * 247.94f;
+    constexpr static const float pluto_a = earth_a * 39.26f;
+    constexpr static const float pluto_b = earth_b * 39.26f;
+     */
 };
