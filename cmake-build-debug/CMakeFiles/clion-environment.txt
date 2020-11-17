@@ -1,0 +1,4 @@
+ToolSet: w64 8.0 (local)@E:\Programy\MinGW\mingw64
+Options: 
+
+Options:

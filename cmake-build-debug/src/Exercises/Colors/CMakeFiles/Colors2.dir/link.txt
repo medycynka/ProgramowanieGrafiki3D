@@ -1,0 +1,3 @@
+D:\Programy\JetBrains\apps\CLion\ch-0\202.7319.72\bin\cmake\win\bin\cmake.exe -E rm -f CMakeFiles\Colors2.dir/objects.a
+E:\Programy\MinGW\mingw64\bin\ar.exe cr CMakeFiles\Colors2.dir/objects.a @CMakeFiles\Colors2.dir\objects1.rsp
+E:\Programy\MinGW\mingw64\bin\g++.exe -g   -Wl,--whole-archive CMakeFiles\Colors2.dir/objects.a -Wl,--no-whole-archive  -o Colors2.exe -Wl,--out-implib,libColors2.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Colors2.dir\linklibs.rsp

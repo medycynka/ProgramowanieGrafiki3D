@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="PVM"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\src\;CMake Files\src\3rdParty\;CMake Files\src\3rdParty\src\;CMake Files\src\3rdParty\src\glfw3\;CMake Files\src\3rdParty\src\glfw3\CMake\;CMake Files\src\3rdParty\src\glfw3\src\;CMake Files\src\Application\;CMake Files\src\Exercises\;CMake Files\src\Exercises\Exercise_01_Triangle\;CMake Files\src\Exercises\Exercise_02_Colors\;CMake Files\src\Exercises\Exercise_03_Indices\;CMake Files\src\Exercises\Exercise_04_Uniforms\;CMake Files\src\Exercises\PVM\;CMake Files\src\Exercises\Pyramid\;CMake Files\src\Exercises\Backface\;CMake Files\src\Exercises\WindowResize\;CMake Files\src\Exercises\Zooming\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/cmake-build-debug/src/Exercises/PVM"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="E:/Programy/MinGW/mingw64/bin/mingw32-make.exe -f &quot;E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/cmake-build-debug/src/Exercises/PVM/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="E:/Programy/MinGW/mingw64/bin/mingw32-make.exe -f &quot;E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/cmake-build-debug/src/Exercises/PVM/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="E:/Programy/MinGW/mingw64/bin/mingw32-make.exe -f &quot;E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/cmake-build-debug/src/Exercises/PVM/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="E:/Programy/MinGW/mingw64/bin/mingw32-make.exe -f &quot;E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/cmake-build-debug/src/Exercises/PVM/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="PVM">
+				<Option output="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/cmake-build-debug/src/Exercises/PVM/PVM.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/cmake-build-debug/src/Exercises/PVM"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DPROJECT_NAME=&quot;PVM&quot;"/>
+					<Add option="-DPROJECT_DIR=&quot;E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src/Exercises/PVM&quot;"/>
+					<Add directory="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src/3rdParty/include"/>
+					<Add directory="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src"/>
+					<Add directory="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src/3rdParty/src/glfw3/include"/>
+					<Add directory="e:\programy\mingw\mingw64\bin\../lib/gcc/x86_64-w64-mingw32/10.2.0/../../../../include/c++/10.2.0"/>
+					<Add directory="e:\programy\mingw\mingw64\bin\../lib/gcc/x86_64-w64-mingw32/10.2.0/../../../../include/c++/10.2.0/x86_64-w64-mingw32"/>
+					<Add directory="e:\programy\mingw\mingw64\bin\../lib/gcc/x86_64-w64-mingw32/10.2.0/../../../../include/c++/10.2.0/backward"/>
+					<Add directory="e:\programy\mingw\mingw64\bin\../lib/gcc/x86_64-w64-mingw32/10.2.0/include"/>
+					<Add directory="e:\programy\mingw\mingw64\bin\../lib/gcc/x86_64-w64-mingw32/10.2.0/../../../../include"/>
+					<Add directory="e:\programy\mingw\mingw64\bin\../lib/gcc/x86_64-w64-mingw32/10.2.0/include-fixed"/>
+					<Add directory="e:\programy\mingw\mingw64\bin\../lib/gcc/x86_64-w64-mingw32/10.2.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="E:/Programy/MinGW/mingw64/bin/mingw32-make.exe -f &quot;E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/cmake-build-debug/src/Exercises/PVM/Makefile&quot;  VERBOSE=1 PVM"/>
+					<CompileFile command="E:/Programy/MinGW/mingw64/bin/mingw32-make.exe -f &quot;E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/cmake-build-debug/src/Exercises/PVM/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="E:/Programy/MinGW/mingw64/bin/mingw32-make.exe -f &quot;E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/cmake-build-debug/src/Exercises/PVM/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="E:/Programy/MinGW/mingw64/bin/mingw32-make.exe -f &quot;E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/cmake-build-debug/src/Exercises/PVM/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="PVM/fast">
+				<Option output="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/cmake-build-debug/src/Exercises/PVM/PVM.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/cmake-build-debug/src/Exercises/PVM"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DPROJECT_NAME=&quot;PVM&quot;"/>
+					<Add option="-DPROJECT_DIR=&quot;E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src/Exercises/PVM&quot;"/>
+					<Add directory="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src/3rdParty/include"/>
+					<Add directory="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src"/>
+					<Add directory="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src/3rdParty/src/glfw3/include"/>
+					<Add directory="e:\programy\mingw\mingw64\bin\../lib/gcc/x86_64-w64-mingw32/10.2.0/../../../../include/c++/10.2.0"/>
+					<Add directory="e:\programy\mingw\mingw64\bin\../lib/gcc/x86_64-w64-mingw32/10.2.0/../../../../include/c++/10.2.0/x86_64-w64-mingw32"/>
+					<Add directory="e:\programy\mingw\mingw64\bin\../lib/gcc/x86_64-w64-mingw32/10.2.0/../../../../include/c++/10.2.0/backward"/>
+					<Add directory="e:\programy\mingw\mingw64\bin\../lib/gcc/x86_64-w64-mingw32/10.2.0/include"/>
+					<Add directory="e:\programy\mingw\mingw64\bin\../lib/gcc/x86_64-w64-mingw32/10.2.0/../../../../include"/>
+					<Add directory="e:\programy\mingw\mingw64\bin\../lib/gcc/x86_64-w64-mingw32/10.2.0/include-fixed"/>
+					<Add directory="e:\programy\mingw\mingw64\bin\../lib/gcc/x86_64-w64-mingw32/10.2.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="E:/Programy/MinGW/mingw64/bin/mingw32-make.exe -f &quot;E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/cmake-build-debug/src/Exercises/PVM/Makefile&quot;  VERBOSE=1 PVM/fast"/>
+					<CompileFile command="E:/Programy/MinGW/mingw64/bin/mingw32-make.exe -f &quot;E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/cmake-build-debug/src/Exercises/PVM/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="E:/Programy/MinGW/mingw64/bin/mingw32-make.exe -f &quot;E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/cmake-build-debug/src/Exercises/PVM/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="E:/Programy/MinGW/mingw64/bin/mingw32-make.exe -f &quot;E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/cmake-build-debug/src/Exercises/PVM/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/cmake-build-debug/CMakeFiles/glad.dir/src/3rdParty/src/glad/glad.c.obj">
+			<Option target="PVM"/>
+		</Unit>
+		<Unit filename="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src/Exercises/PVM/app.cpp">
+			<Option target="PVM"/>
+		</Unit>
+		<Unit filename="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src/Exercises/PVM/app.h">
+			<Option target="PVM"/>
+		</Unit>
+		<Unit filename="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src/Exercises/PVM/main.cpp">
+			<Option target="PVM"/>
+		</Unit>
+		<Unit filename="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src/3rdParty/src/glfw3/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\3rdParty\src\glfw3\"/>
+		</Unit>
+		<Unit filename="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src/3rdParty/src/glfw3/CMake/cmake_uninstall.cmake.in">
+			<Option virtualFolder="CMake Files\src\3rdParty\src\glfw3\CMake\"/>
+		</Unit>
+		<Unit filename="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src/3rdParty/src/glfw3/CMake/glfw3.pc.in">
+			<Option virtualFolder="CMake Files\src\3rdParty\src\glfw3\CMake\"/>
+		</Unit>
+		<Unit filename="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src/3rdParty/src/glfw3/CMake/glfw3Config.cmake.in">
+			<Option virtualFolder="CMake Files\src\3rdParty\src\glfw3\CMake\"/>
+		</Unit>
+		<Unit filename="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src/3rdParty/src/glfw3/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\3rdParty\src\glfw3\src\"/>
+		</Unit>
+		<Unit filename="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src/3rdParty/src/glfw3/src/glfw_config.h.in">
+			<Option virtualFolder="CMake Files\src\3rdParty\src\glfw3\src\"/>
+		</Unit>
+		<Unit filename="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src/Application/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\Application\"/>
+		</Unit>
+		<Unit filename="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src/Exercises/Exercise_01_Triangle/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\Exercises\Exercise_01_Triangle\"/>
+		</Unit>
+		<Unit filename="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src/Exercises/Exercise_02_Colors/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\Exercises\Exercise_02_Colors\"/>
+		</Unit>
+		<Unit filename="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src/Exercises/Exercise_03_Indices/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\Exercises\Exercise_03_Indices\"/>
+		</Unit>
+		<Unit filename="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src/Exercises/Exercise_04_Uniforms/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\Exercises\Exercise_04_Uniforms\"/>
+		</Unit>
+		<Unit filename="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src/Exercises/PVM/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\Exercises\PVM\"/>
+		</Unit>
+		<Unit filename="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src/Exercises/Pyramid/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\Exercises\Pyramid\"/>
+		</Unit>
+		<Unit filename="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src/Exercises/Backface/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\Exercises\Backface\"/>
+		</Unit>
+		<Unit filename="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src/Exercises/WindowResize/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\Exercises\WindowResize\"/>
+		</Unit>
+		<Unit filename="E:/Infa/Studia/Rok4/Programowanie Grafiki 3D/src/Exercises/Zooming/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\Exercises\Zooming\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

@@ -1,0 +1,3 @@
+D:\Programy\JetBrains\apps\CLion\ch-0\202.7319.72\bin\cmake\win\bin\cmake.exe -E rm -f CMakeFiles\Exercise_11_PyramidAnimation.dir/objects.a
+E:\Programy\MinGW\mingw64\bin\ar.exe cr CMakeFiles\Exercise_11_PyramidAnimation.dir/objects.a @CMakeFiles\Exercise_11_PyramidAnimation.dir\objects1.rsp
+E:\Programy\MinGW\mingw64\bin\g++.exe -g   -Wl,--whole-archive CMakeFiles\Exercise_11_PyramidAnimation.dir/objects.a -Wl,--no-whole-archive  -o Exercise_11_PyramidAnimation.exe -Wl,--out-implib,libExercise_11_PyramidAnimation.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Exercise_11_PyramidAnimation.dir\linklibs.rsp
