@@ -116,6 +116,10 @@ private:
     glm::mat4 O_phobos{};          // translation matrix (orbital movement) for phobos pyramid
     glm::mat4 S_phobos{};          // scale matrix for phobos pyramid
     glm::mat4 PMV_phobos{};        // pmv matrix for phobos pyramid
+    glm::mat4 R_deimos{};          // rotation matrix for deimos pyramid
+    glm::mat4 O_deimos{};          // translation matrix (orbital movement) for deimos pyramid
+    glm::mat4 S_deimos{};          // scale matrix for deimos pyramid
+    glm::mat4 PMV_deimos{};        // pmv matrix for deimos pyramid
 
     // Pointers
     Camera *camera_ = nullptr;
@@ -134,8 +138,8 @@ private:
     constexpr static const float doublePI_ = 2.0f * PI_;
     //Sun
     constexpr static const float r_sun = 0.05f;
-    constexpr static const float sun_rotation_period = 50.0f;
-    constexpr static const float sun_orbital_rotation_period = 100.0f;
+    constexpr static const float sun_rotation_period = 21.0f;
+    constexpr static const float sun_orbital_rotation_period = 250.0f;
     // Mercury
     constexpr static const float mercury_rotation_period = 234.58f;
     constexpr static const float mercury_orbital_rotation_period = 83.04f;
@@ -160,11 +164,15 @@ private:
     constexpr static const float r_satellite = 1.5f;
     // Mars
     constexpr static const float mars_rotation_period = 4.104f;
-    constexpr static const float mars_orbital_rotation_period = 10.63f;
+    constexpr static const float mars_orbital_rotation_period = 37.63f;
     constexpr static const float mars_a = 22.86f;
     constexpr static const float mars_b = 18.29f;
     // Phobos
     constexpr static const float phobos_rotation_period = 1.0f;
     constexpr static const float phobos_orbital_rotation_period = 1.0f;
     constexpr static const float phobos_r = 1.25;
+    // Deimos
+    constexpr static const float deimos_rotation_period = 6.0f;
+    constexpr static const float deimos_orbital_rotation_period = 4.0f;
+    constexpr static const float deimos_r = 2;
 };

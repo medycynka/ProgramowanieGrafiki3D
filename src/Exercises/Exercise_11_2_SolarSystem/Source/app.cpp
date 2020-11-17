@@ -63,6 +63,8 @@ void SimpleShapeApplication::init() {
     S_moon = glm::scale(glm::vec3(0.27f, 0.27f, 0.25f));
     S_satellite = glm::scale(glm::vec3(0.1f, 0.1f, 0.1f));
     S_mars = glm::scale(glm::vec3(0.52f, 0.52f, 0.52f));
+    S_phobos = glm::scale(glm::vec3(0.1f, 0.1f, 0.1f));
+    S_deimos = glm::scale(glm::vec3(0.2f, 0.2f, 0.2f));
     glViewport(0, 0, w, h);
 
     glEnable(GL_DEPTH_TEST);
@@ -90,6 +92,7 @@ void SimpleShapeApplication::frame() {
     draw_and_send_pmv(PMV_satellite);
     draw_and_send_pmv(PMV_mars);
     draw_and_send_pmv(PMV_phobos);
+    draw_and_send_pmv(PMV_deimos);
 }
 
 void SimpleShapeApplication::framebuffer_resize_callback(int w, int h) {
@@ -190,7 +193,14 @@ void SimpleShapeApplication::calculate_solar_system_pmv(float elapsed_time) {
     orbital_rotation_angle = piTime / phobos_orbital_rotation_period;
     R_phobos = glm::rotate(M_, rotation_angle, axis_);
     O_phobos = glm::translate(M_, {phobos_r * cos(orbital_rotation_angle), 0.0f, phobos_r * sin(orbital_rotation_angle)});
-    PMV_phobos = PMV_basic * O_mars * O_phobos * R_mars * S_mars;
+    PMV_phobos = PMV_basic * O_mars * O_phobos * R_phobos * S_phobos;
+
+    // Deimos
+    rotation_angle = piTime / deimos_rotation_period;
+    orbital_rotation_angle = piTime / deimos_orbital_rotation_period;
+    R_deimos = glm::rotate(M_, rotation_angle, axis_);
+    O_deimos = glm::translate(M_, {deimos_r * cos(orbital_rotation_angle), 0.0f, deimos_r * sin(orbital_rotation_angle)});
+    PMV_deimos = PMV_basic * O_mars * O_deimos * R_deimos * S_deimos;
 }
 
 void SimpleShapeApplication::draw_and_send_pmv(const glm::mat4 &pmv_) {
