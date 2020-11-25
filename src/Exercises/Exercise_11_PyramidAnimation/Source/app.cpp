@@ -75,31 +75,27 @@ void SimpleShapeApplication::frame() {
     auto elapsed_time = std::chrono::duration_cast<std::chrono::duration<float>>(now - start_).count();
 
     // Calculating extended pmv matrices for every pyramid
-    // Moon
-    auto rotation_angle = doublePI_ * elapsed_time / moon_rotation_period;
-    auto orbital_rotation_angle = doublePI_ * elapsed_time / moon_rotation_period;
-    R_moon = glm::rotate(M_, rotation_angle, axis_);
-    O_moon = glm::translate(M_, {r_moon * cos(orbital_rotation_angle), 0.0f, r_moon * sin(orbital_rotation_angle)});
-    // Satellite
-    rotation_angle = doublePI_ * elapsed_time / satellite_rotation_period;
-    orbital_rotation_angle = doublePI_ * elapsed_time / satellite_rotation_period;
-    R_satellite = glm::rotate(M_, rotation_angle, satellite_axis);
-    O_satellite = glm::translate(M_, {r_satellite * cos(orbital_rotation_angle), r_satellite * sin(orbital_rotation_angle), 0.0f});
     // Earth
-    rotation_angle = doublePI_ * elapsed_time / rotation_period;
-    orbital_rotation_angle = doublePI_ * elapsed_time / orbital_rotation_period;
-    R_ = glm::rotate(M_, rotation_angle, axis_);
-    O_ = glm::translate(M_, {a * cos(orbital_rotation_angle), 0.0f, b * sin(orbital_rotation_angle)});
-    // PMV matrices
+    R_ = glm::rotate(M_, rotation_angle * elapsed_time, axis_);
+    O_ = glm::translate(M_, {a * std::cos(orbital_rotation_angle * elapsed_time), 0.0f, b * std::sin(orbital_rotation_angle * elapsed_time)});
     PMV_basic = camera_->projection() * M_ * camera_->view() * O_;
-    PMV_moon = PMV_basic * O_moon * R_ * S_moon;
-    PMV_satellite = PMV_basic * O_satellite * R_satellite * S_satellite;
     PMV_ = PMV_basic * R_;
 
+    // Moon
+    R_moon = glm::rotate(M_, moon_rotation_angle * elapsed_time, axis_);
+    O_moon = glm::translate(M_, {r_moon * std::cos(moon_orbital_rotation_angle * elapsed_time), 0.0f, r_moon * std::sin(moon_orbital_rotation_angle * elapsed_time)});
+    PMV_moon = PMV_basic * O_moon * R_moon * S_moon;
+
+    // Satellite
+    R_satellite = glm::rotate(M_, satellite_rotation_angle * elapsed_time, satellite_axis);
+    O_satellite = glm::translate(M_, {r_satellite * std::cos(satellite_orbital_rotation_angle * elapsed_time), r_satellite * std::sin(satellite_orbital_rotation_angle * elapsed_time), 0.0f});
+    PMV_satellite = PMV_basic * O_satellite * R_satellite * S_satellite;
+
     // Drawing pyramids and sending pmv matrix to the shader
+    draw_and_send_pmv(PMV_);
     draw_and_send_pmv(PMV_moon);
     draw_and_send_pmv(PMV_satellite);
-    draw_and_send_pmv(PMV_);
+    //draw_and_send_pmv(PMV_);
 }
 
 void SimpleShapeApplication::framebuffer_resize_callback(int w, int h) {

@@ -110,11 +110,17 @@ private:
     constexpr static const float PI_ = glm::pi<float>();
     constexpr static const float doublePI_ = 2.0f * PI_;
     constexpr static const float rotation_period = 4.0f;
+    constexpr static const float rotation_angle = -doublePI_ / rotation_period;
     constexpr static const float orbital_rotation_period = 20.0f;
+    constexpr static const float orbital_rotation_angle = doublePI_ / orbital_rotation_period;
     constexpr static const float a = 10.0f;
     constexpr static const float b = 8.0f;
     constexpr static const float r_moon = 3.0f;
     constexpr static const float moon_rotation_period = 10.0f;
+    constexpr static const float moon_rotation_angle = -doublePI_ / moon_rotation_period;
+    constexpr static const float moon_orbital_rotation_angle = doublePI_ / moon_rotation_period;
     constexpr static const float r_satellite = 1.5f;
     constexpr static const float satellite_rotation_period = 2.0f;
+    constexpr static const float satellite_rotation_angle = -doublePI_ / satellite_rotation_period;
+    constexpr static const float satellite_orbital_rotation_angle = doublePI_ / satellite_rotation_period;
 };

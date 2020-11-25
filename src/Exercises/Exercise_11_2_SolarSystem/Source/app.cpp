@@ -135,71 +135,52 @@ void SimpleShapeApplication::cursor_position_callback(double x, double y) {
 }
 
 void SimpleShapeApplication::calculate_solar_system_pmv(float elapsed_time) {
-    auto piTime = doublePI_ * elapsed_time;
     PMV_basic = camera_->projection() * M_ * camera_->view();
 
     // Sun
-    auto rotation_angle = piTime / sun_rotation_period;
-    auto orbital_rotation_angle = piTime / sun_orbital_rotation_period;
-    R_sun = glm::rotate(M_, rotation_angle, axis_);
-    O_sun = glm::translate(M_, {r_sun * cos(orbital_rotation_angle), 0.0f, r_sun * sin(orbital_rotation_angle)});
+    R_sun = glm::rotate(M_, sun_rotation_angle * elapsed_time, axis_);
+    O_sun = glm::translate(M_, {r_sun * std::cos(sun_orbital_rotation_angle * elapsed_time), 0.0f, r_sun * std::sin(sun_orbital_rotation_angle * elapsed_time)});
     PMV_sun = PMV_basic * O_sun * R_sun * S_sun;
 
     // Mercury
-    rotation_angle = piTime / mercury_rotation_period;
-    orbital_rotation_angle = piTime / mercury_orbital_rotation_period;
-    R_mercury = glm::rotate(M_, rotation_angle, axis_);
-    O_mercury = glm::translate(M_, {mercury_a * cos(orbital_rotation_angle), 0.0f, mercury_b * sin(orbital_rotation_angle)});
+    R_mercury = glm::rotate(M_, mercury_rotation_angle * elapsed_time, axis_);
+    O_mercury = glm::translate(M_, {mercury_a * std::cos(mercury_orbital_rotation_angle * elapsed_time), 0.0f, mercury_b * std::sin(mercury_orbital_rotation_angle * elapsed_time)});
     PMV_mercury = PMV_basic * O_mercury * R_mercury * S_mercury;
 
     // Venus
-    rotation_angle = piTime / venus_rotation_period;
-    orbital_rotation_angle = piTime / venus_orbital_rotation_period;
-    R_venus = glm::rotate(M_, rotation_angle, axis_);
-    O_venus = glm::translate(M_, {venus_a * cos(orbital_rotation_angle), 0.0f, venus_b * sin(orbital_rotation_angle)});
+    R_venus = glm::rotate(M_, venus_rotation_angle * elapsed_time, axis_);
+    O_venus = glm::translate(M_, {venus_a * std::cos(venus_orbital_rotation_angle * elapsed_time), 0.0f, venus_b * std::sin(venus_orbital_rotation_angle * elapsed_time)});
     PMV_venus = PMV_basic * O_venus * R_venus * S_venus;
 
     // Earth
-    rotation_angle = piTime / rotation_period;
-    orbital_rotation_angle = piTime / orbital_rotation_period;
-    R_earth = glm::rotate(M_, rotation_angle, axis_);
-    O_earth = glm::translate(M_, {earth_a * cos(orbital_rotation_angle), 0.0f, earth_b * sin(orbital_rotation_angle)});
+    R_earth = glm::rotate(M_, rotation_angle * elapsed_time, axis_);
+    O_earth = glm::translate(M_, {earth_a * std::cos(orbital_rotation_angle * elapsed_time), 0.0f, earth_b * std::sin(orbital_rotation_angle * elapsed_time)});
     PMV_earth_basic = PMV_basic * O_earth;
     PMV_earth = PMV_earth_basic * R_earth;
 
     // Moon
-    rotation_angle = piTime / moon_rotation_period;
-    orbital_rotation_angle = piTime / moon_orbital_rotation_period;
-    R_moon = glm::rotate(M_, rotation_angle, axis_);
-    O_moon = glm::translate(M_, {r_moon * cos(orbital_rotation_angle), 0.0f, r_moon * sin(orbital_rotation_angle)});
+    R_moon = glm::rotate(M_, moon_rotation_angle * elapsed_time, axis_);
+    O_moon = glm::translate(M_, {r_moon * std::cos(moon_orbital_rotation_angle * elapsed_time), 0.0f, r_moon * std::sin(moon_orbital_rotation_angle * elapsed_time)});
     PMV_moon = PMV_earth_basic * O_moon * R_moon * S_moon;
 
     // Satellite
-    rotation_angle = piTime / satellite_rotation_period;
-    orbital_rotation_angle = piTime / satellite_orbital_rotation_period;
-    R_satellite = glm::rotate(M_, rotation_angle, satellite_axis);
-    O_satellite = glm::translate(M_, {r_satellite * cos(orbital_rotation_angle), r_satellite * sin(orbital_rotation_angle), 0.0f});
+    R_satellite = glm::rotate(M_, satellite_rotation_angle * elapsed_time, satellite_axis);
+    O_satellite = glm::translate(M_, {r_satellite * std::cos(satellite_orbital_rotation_angle * elapsed_time), r_satellite * std::sin(satellite_orbital_rotation_angle * elapsed_time), 0.0f});
     PMV_satellite = PMV_earth_basic * O_satellite * R_satellite * S_satellite;
 
     // Mars
-    rotation_angle = piTime / mars_rotation_period;
-    orbital_rotation_angle = piTime / mars_orbital_rotation_period;
-    R_mars = glm::rotate(M_, rotation_angle, axis_);
-    O_mars = glm::translate(M_, {mars_a * cos(orbital_rotation_angle), 0.0f, mars_b * sin(orbital_rotation_angle)});
+    R_mars = glm::rotate(M_, mars_rotation_angle * elapsed_time, axis_);
+    O_mars = glm::translate(M_, {mars_a * std::cos(mars_orbital_rotation_angle * elapsed_time), 0.0f, mars_b * std::sin(mars_orbital_rotation_angle * elapsed_time)});
     PMV_mars = PMV_basic * O_mars * R_mars * S_mars;
 
     // Phobos
-    rotation_angle = piTime / phobos_rotation_period;
-    orbital_rotation_angle = piTime / phobos_orbital_rotation_period;
-    R_phobos = glm::rotate(M_, rotation_angle, axis_);
-    O_phobos = glm::translate(M_, {phobos_r * cos(orbital_rotation_angle), 0.0f, phobos_r * sin(orbital_rotation_angle)});
+    R_phobos = glm::rotate(M_, phobos_rotation_angle * elapsed_time, axis_);
+    O_phobos = glm::translate(M_, {phobos_r * std::cos(phobos_orbital_rotation_angle * elapsed_time), 0.0f, phobos_r * std::sin(phobos_orbital_rotation_angle * elapsed_time)});
     PMV_phobos = PMV_basic * O_mars * O_phobos * R_phobos * S_phobos;
 
     // Deimos
-    rotation_angle = piTime / deimos_rotation_period;
-    orbital_rotation_angle = piTime / deimos_orbital_rotation_period;
-    R_deimos = glm::rotate(M_, rotation_angle, axis_);
-    O_deimos = glm::translate(M_, {deimos_r * cos(orbital_rotation_angle), 0.0f, deimos_r * sin(orbital_rotation_angle)});
+    R_deimos = glm::rotate(M_, deimos_rotation_angle * elapsed_time, axis_);
+    O_deimos = glm::translate(M_, {deimos_r * std::cos(deimos_orbital_rotation_angle * elapsed_time), 0.0f, deimos_r * std::sin(deimos_orbital_rotation_angle * elapsed_time)});
     PMV_deimos = PMV_basic * O_mars * O_deimos * R_deimos * S_deimos;
 }
 
