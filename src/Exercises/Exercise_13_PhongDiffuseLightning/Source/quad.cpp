@@ -3,7 +3,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "3rdParty/src/stb/stb_image.h"
 
-Quad::Quad(int program_id) {
+Quad::Quad() {
     // Sending indices and vertices buffers to shaders
     glGenBuffers(1, &buffer_[0]);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer_[0]);
@@ -47,40 +47,13 @@ Quad::Quad(int program_id) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
     glBindTexture(GL_TEXTURE_2D, 0);
-
-    auto u_light_index = glGetUniformBlockIndex(program_id, "Light");
-    if (u_light_index == GL_INVALID_INDEX) {
-        std::cout << "Cannot find Light uniform block in program" << "\n";
-    } else {
-        glUniformBlockBinding(program_id, u_light_index, 2);
-    }
-
-    // Light
-    old_position_ = glm::vec4(0.0f, 0.0f, 2.0f, 1.0f);
-    light_.position = old_position_;
-    light_.color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-    light_.a = glm::vec4(1.0f, 0.0f, 1.0f, 0.0f);
 }
 
 Quad::~Quad(){
     stbi_image_free(data_);
 }
 
-void Quad::update_light_position(const glm::mat4 &mv_) {
-    light_.position = old_position_ * mv_;
-}
-
 void Quad::draw() {
-    // sending updated light to shader
-    glGenBuffers(1, &u_light_buffer);
-    glBindBuffer(GL_UNIFORM_BUFFER, u_light_buffer);
-    glBufferData(GL_UNIFORM_BUFFER, 3 * sizeof(glm::vec4), nullptr, GL_STATIC_DRAW);
-    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::vec4), &light_.position);
-    glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::vec4), sizeof(glm::vec4), &light_.color);
-    glBufferSubData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::vec4), sizeof(glm::vec4), &light_.a);
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
-    glBindBufferBase(GL_UNIFORM_BUFFER, 2, u_light_buffer);
-
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, diffuse_texture_);
     glBindVertexArray(vao_);

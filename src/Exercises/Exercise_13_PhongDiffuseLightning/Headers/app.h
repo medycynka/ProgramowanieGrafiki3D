@@ -78,12 +78,22 @@ private:
     // Buffers
     GLuint vao_ = 0;
     GLuint u_pvm_buffer = 0;
+    GLuint u_light_buffer = 0;
 
     // Matrices
     glm::mat4 M_{};
     glm::mat4 P_{};
     glm::mat4 MV_{};
     glm::mat3 N_{};
+
+    // Light
+    glm::vec4 old_position_;
+    struct Light {
+        glm::vec4 position;
+        glm::vec4 color;
+        glm::vec4 a;
+    };
+    Light light_{};
 
     // Pointers
     Camera *camera_ = nullptr;
