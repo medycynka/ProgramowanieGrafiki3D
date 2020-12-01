@@ -92,6 +92,7 @@ private:
         glm::vec4 position;
         glm::vec4 color;
         glm::vec4 a;
+        glm::vec3 ambient;
     };
     Light light_{};
 

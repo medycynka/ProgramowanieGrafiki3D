@@ -34,15 +34,28 @@ void SimpleShapeApplication::init() {
     }
 
     // Light
-    old_position_ = glm::vec4(0.0f, 1.5f, 0.0f, 1.0f);
+    old_position_ = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
     light_.position = old_position_;
     light_.color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
     light_.a = glm::vec4(1.0f, 0.0f, 1.0f, 0.0f);
+    light_.ambient = glm::vec3(0.2f, 0.2f, 0.2f);
+
+    glGenBuffers(1, &u_light_buffer);
+    glBindBuffer(GL_UNIFORM_BUFFER, u_light_buffer);
+    glBufferData(GL_UNIFORM_BUFFER, 3 * sizeof(glm::vec4) + sizeof(glm::vec3), nullptr, GL_STATIC_DRAW);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    glBindBufferBase(GL_UNIFORM_BUFFER, 2, u_light_buffer);
+
+    glGenBuffers(1, &u_pvm_buffer);
+    glBindBuffer(GL_UNIFORM_BUFFER, u_pvm_buffer);
+    glBufferData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::mat4) + 3 * sizeof(glm::vec3), nullptr, GL_STATIC_DRAW);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    glBindBufferBase(GL_UNIFORM_BUFFER, 0, u_pvm_buffer);
 
     // Camera starting position for scaling, zooming and moving
-    glm::vec3 cameraPos = {0.0f, 4.0f,  0.001f};
+    glm::vec3 cameraPos = {0.0f, 4.0f,  0.0f};
     glm::vec3 cameraCenter = {0.0f, 0.0f, 0.0f};
-    glm::vec3 cameraUp = {0.0f, 1.0f, 0.0f};
+    glm::vec3 cameraUp = {0.1f, 1.0f, 0.0f};
 
     glClearColor(0.81f, 0.81f, 0.81f, 1.0f);
     int w, h;
@@ -89,7 +102,7 @@ void SimpleShapeApplication::frame() {
     P_ = camera_->projection();
     MV_ = M_ * camera_->view();
     N_ = glm::transpose(glm::inverse(glm::mat3(MV_)));
-    light_.position = MV_ * old_position_; //light_.position;
+    light_.position = MV_ * old_position_;
 
     draw_and_send_matrices(P_, MV_, N_);
 }
@@ -135,26 +148,21 @@ void SimpleShapeApplication::cursor_position_callback(double x, double y) {
 
 void SimpleShapeApplication::draw_and_send_matrices(const glm::mat4 &p_, const glm::mat4 &mv_, const glm::mat3 &n_) {
     // sending updated light to shader
-    glGenBuffers(1, &u_light_buffer);
     glBindBuffer(GL_UNIFORM_BUFFER, u_light_buffer);
-    glBufferData(GL_UNIFORM_BUFFER, 3 * sizeof(glm::vec4), nullptr, GL_STATIC_DRAW);
     glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::vec4), &light_.position);
     glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::vec4), sizeof(glm::vec4), &light_.color);
     glBufferSubData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::vec4), sizeof(glm::vec4), &light_.a);
+    glBufferSubData(GL_UNIFORM_BUFFER, 3 * sizeof(glm::vec4), sizeof(glm::vec3), &light_.ambient);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
-    glBindBufferBase(GL_UNIFORM_BUFFER, 2, u_light_buffer);
 
     quad_->draw();
 
     // sending updated pvm matrix to shader
-    glGenBuffers(1, &u_pvm_buffer);
     glBindBuffer(GL_UNIFORM_BUFFER, u_pvm_buffer);
-    glBufferData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::mat4) + sizeof(glm::mat3), nullptr, GL_STATIC_DRAW);
     glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), &p_[0]);
     glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), &mv_[0]);
     glBufferSubData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::mat4), sizeof(glm::vec3), &n_[0]);
     glBufferSubData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::mat4) + sizeof(glm::vec3), sizeof(glm::vec3), &n_[1]);
     glBufferSubData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::mat4) + 2 * sizeof(glm::vec3), sizeof(glm::vec3), &n_[2]);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
-    glBindBufferBase(GL_UNIFORM_BUFFER, 0, u_pvm_buffer);
 }

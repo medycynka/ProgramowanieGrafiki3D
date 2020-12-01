@@ -29,7 +29,7 @@ Quad::Quad() {
 
     // Loading texture for quad
     int width, height, n_channels;
-    auto texture_filename = std::string(PROJECT_DIR) + "/Textures/silver_2.png";
+    auto texture_filename = std::string(PROJECT_DIR) + "/Textures/silver.png";
     data_ = stbi_load(texture_filename.c_str(), &width, &height, &n_channels, 0);
 
     if(data_){
@@ -43,7 +43,7 @@ Quad::Quad() {
     }
 
     glBindTexture(GL_TEXTURE_2D, diffuse_texture_);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data_);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data_);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_NEAREST);
     glBindTexture(GL_TEXTURE_2D, 0);
