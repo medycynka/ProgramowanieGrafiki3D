@@ -48,7 +48,7 @@ void SimpleShapeApplication::init() {
 
     glGenBuffers(1, &u_pvm_buffer);
     glBindBuffer(GL_UNIFORM_BUFFER, u_pvm_buffer);
-    glBufferData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::mat4) + 3 * sizeof(glm::vec3), nullptr, GL_STATIC_DRAW);
+    glBufferData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::mat4) + 3 * sizeof(glm::vec4), nullptr, GL_STATIC_DRAW);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
     glBindBufferBase(GL_UNIFORM_BUFFER, 0, u_pvm_buffer);
 
@@ -161,8 +161,8 @@ void SimpleShapeApplication::draw_and_send_matrices(const glm::mat4 &p_, const g
     glBindBuffer(GL_UNIFORM_BUFFER, u_pvm_buffer);
     glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), &p_[0]);
     glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), &mv_[0]);
-    glBufferSubData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::mat4), sizeof(glm::vec3), &n_[0]);
-    glBufferSubData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::mat4) + sizeof(glm::vec3), sizeof(glm::vec3), &n_[1]);
-    glBufferSubData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::mat4) + 2 * sizeof(glm::vec3), sizeof(glm::vec3), &n_[2]);
+    glBufferSubData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::mat4), sizeof(glm::vec4), &n_[0]);
+    glBufferSubData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::mat4) + sizeof(glm::vec4), sizeof(glm::vec3), &n_[1]);
+    glBufferSubData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::mat4) + 2 * sizeof(glm::vec4), sizeof(glm::vec3), &n_[2]);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
