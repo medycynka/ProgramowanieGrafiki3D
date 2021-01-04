@@ -48,8 +48,54 @@ namespace xe {
                     return "Fragment";
                 case GL_GEOMETRY_SHADER:
                     return "Geometry";
+                default:
+                    return "Unknown";
             }
-            return "Unknown";
+        }
+
+        void set_uniform1i(GLuint program, const std::string &name, int value) {
+            auto location = glGetUniformLocation(program, name.c_str());
+            if (location == -1) {
+                std::cerr << "Cannot find uniform `" << name << "'" << "\n";
+            } else {
+                glUniform1i(location, value);
+            }
+        }
+
+        void set_uniform_block_binding(GLuint program, const std::string &name, GLuint binding) {
+            auto block_index = glGetUniformBlockIndex(program, name.c_str());
+            if (block_index == GL_INVALID_INDEX) {
+                std::cout << "Cannot find `" << name << "' in program " << program << "\n";
+            } else {
+                glUniformBlockBinding(program, block_index, binding);
+            }
+        }
+
+        void load_texture(const std::string &filename) {
+            int width, height, n_channels;
+            auto data = stbi_load(filename.c_str(), &width, &height, &n_channels, 0);
+            if (data) {
+                if (n_channels == 3)
+                    glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+                else if (n_channels == 4)
+                    glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB_ALPHA, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+                else if (n_channels == 2)
+                    glTexImage2D(GL_TEXTURE_2D, 0, GL_RG, width, height, 0, GL_RG, GL_UNSIGNED_BYTE, data);
+                else if (n_channels == 1)
+                    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, data);
+                else {
+                    std::cerr << "Unsuported number of chanels ( " << n_channels << ")  in texture \n";
+                }
+                auto status = glGetError();
+                if (status != GL_NO_ERROR) {
+                    std::cerr << "Error " << status << " " << /*xe::utils::error_msg(status)
+                              << */" while loading a texture "
+                              << "\n";
+                }
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            }
+            stbi_image_free(data);
         }
     }
 

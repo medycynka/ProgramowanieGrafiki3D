@@ -1,8 +1,5 @@
 #include "../Headers/quad.h"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "3rdParty/src/stb/stb_image.h"
-
 Quad::Quad() {
     // Sending indices and vertices buffers to shaders
     glGenBuffers(1, &buffer_[0]);
@@ -26,38 +23,15 @@ Quad::Quad() {
     glEnableVertexAttribArray(2);
     glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), reinterpret_cast<GLvoid *>(5 * sizeof(GLfloat)));
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    // Loading texture for quad
-    int width, height, n_channels;
-    auto texture_filename = std::string(PROJECT_DIR) + "/Textures/silver.png";
-    data_ = stbi_load(texture_filename.c_str(), &width, &height, &n_channels, 0);
-
-    if(data_){
-        std::cout << "Successfully loaded texture " << texture_filename << "\n";
-        std::cout << "Read values: " << "\n";
-        std::cout << "Width: " << width << "\n";
-        std::cout << "Height: " << height << "\n";
-        std::cout << "Number of channels: " << n_channels << "\n";
-    } else{
-        std::cerr << "Error, couldn't load " << texture_filename << "." << "\n";
-    }
-
-    glBindTexture(GL_TEXTURE_2D, diffuse_texture_);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data_);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 Quad::~Quad(){
-    stbi_image_free(data_);
+    matAl.destroy(material_);
+    matAl.deallocate(material_, 1);
 }
 
 void Quad::draw() {
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, diffuse_texture_);
     glBindVertexArray(vao_);
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_SHORT, nullptr);
     glBindVertexArray(0);
-    glBindTexture(GL_TEXTURE_2D, 0);
 }
