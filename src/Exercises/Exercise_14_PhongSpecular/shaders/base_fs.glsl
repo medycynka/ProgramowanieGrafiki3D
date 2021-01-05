@@ -5,10 +5,6 @@ in vec3 vertex_normal_in_vs;
 in vec3 vertex_position_in_vs;
 layout(location=0) out vec4 vFragColor;
 
-uniform sampler2D diffuse_map;
-uniform sampler2D specular_map;
-uniform sampler2D shininess_map;
-
 layout(std140) uniform Light {
     vec3 position_in_vs;
     vec3 color;
@@ -24,6 +20,10 @@ layout(std140) uniform Material {
     float Ns;
     uint Ns_map;
 } material;
+
+uniform sampler2D diffuse_map;
+uniform sampler2D specular_map;
+uniform sampler2D shininess_map;
 
 const float M_PI = 3.14159265359f;
 const float eight_PI = M_PI * 8.0f;
@@ -65,12 +65,12 @@ void main() {
         shininess = material.Ns;
     }
 
-    vec3 view_vector = normalize(-light.position_in_vs);
-    vec3 half_vector = normalize(view_vector + specular_color);
+    vec3 view_vector = normalize(-vertex_position_in_vs);
+    vec3 half_vector = normalize(view_vector + light_vector);
     float specular = ((shininess + 8.0f) / eight_PI) * pow(max(dot(half_vector, normal), 0.0f), shininess);
 
     vFragColor.a = diffuse_color.a;
     vFragColor.rgb = diffuse_color.rgb * light.ambient.rgb;
     vFragColor.rgb += light_in * diffuse_color.rgb * light.color;
-    vFragColor.rgb += light_in * light.color * specular;
+    vFragColor.rgb += light_in * light.color * specular * specular_color;
 }

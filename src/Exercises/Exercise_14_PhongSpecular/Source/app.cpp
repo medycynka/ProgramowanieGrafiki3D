@@ -21,20 +21,8 @@ void SimpleShapeApplication::init() {
 
     // uniform blocks
     xe::utils::set_uniform_block_binding(program, "Transformations", 0);
-    xe::utils::set_uniform_block_binding(program, "Light", 2);
-    xe::utils::set_uniform_block_binding(program, "Material", 3);
-
-    // Light
-    light_.position = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
-    light_.color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-    light_.a = glm::vec4(1.0f, 0.0f, 1.0f, 0.0f);
-    light_.ambient = glm::vec3(0.2f, 0.2f, 0.2f);
-
-    glGenBuffers(1, &u_light_buffer);
-    glBindBuffer(GL_UNIFORM_BUFFER, u_light_buffer);
-    glBufferData(GL_UNIFORM_BUFFER, 3 * sizeof(glm::vec4) + sizeof(glm::vec3), nullptr, GL_STATIC_DRAW);
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
-    glBindBufferBase(GL_UNIFORM_BUFFER, 2, u_light_buffer);
+    xe::utils::set_uniform_block_binding(program, "Light", 1);
+    xe::utils::set_uniform_block_binding(program, "Material", 2);
 
     glGenBuffers(1, &u_pvm_buffer);
     glBindBuffer(GL_UNIFORM_BUFFER, u_pvm_buffer);
@@ -42,11 +30,23 @@ void SimpleShapeApplication::init() {
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
     glBindBufferBase(GL_UNIFORM_BUFFER, 0, u_pvm_buffer);
 
+    glGenBuffers(1, &u_light_buffer);
+    glBindBuffer(GL_UNIFORM_BUFFER, u_light_buffer);
+    glBufferData(GL_UNIFORM_BUFFER, sizeof(Light), nullptr, GL_STATIC_DRAW);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    glBindBufferBase(GL_UNIFORM_BUFFER, 1, u_light_buffer);
+
     glGenBuffers(1, &u_material_buffer);
     glBindBuffer(GL_UNIFORM_BUFFER, u_material_buffer);
     glBufferData(GL_UNIFORM_BUFFER, sizeof(PhongMaterial), nullptr, GL_STATIC_DRAW);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
-    glBindBufferBase(GL_UNIFORM_BUFFER, 3, u_pvm_buffer);
+    glBindBufferBase(GL_UNIFORM_BUFFER, 2, u_material_buffer);
+
+    // Light
+    light_.position = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+    light_.color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+    light_.a = glm::vec4(1.0f, 0.0f, 1.0f, 0.0f);
+    light_.ambient = glm::vec4(0.2f, 0.2f, 0.2f, 1.0f);
 
     // Camera starting position for scaling, zooming and moving
     glm::vec3 cameraPos = {0.0f, 4.0f,  0.0f};
@@ -61,14 +61,20 @@ void SimpleShapeApplication::init() {
     quad_ = q_al_.allocate(1);
     q_al_.construct(quad_);
     if(!quad_){
-        std::cerr << "Couldn't create pyramid pointer." << "\n";
+        std::cerr << "Couldn't create quad pointer." << "\n";
     }
 
     // Loading texture for quad
     glGenTextures(1, &diffuse_texture_);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, diffuse_texture_);
-    xe::utils::load_texture(std::string(PROJECT_DIR) + "/Textures/silver.png");
+    xe::utils::load_texture(std::string(PROJECT_DIR) + "/Textures/plastic.png");
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    //glGenTextures(1, &shininess_texture_);
+    //glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D, shininess_texture_);
+    xe::utils::load_texture(std::string(PROJECT_DIR) + "/Textures/shininess.png");
     glBindTexture(GL_TEXTURE_2D, 0);
 
     auto mat_ = quad_->get_material_allocator().allocate(1);
@@ -78,7 +84,7 @@ void SimpleShapeApplication::init() {
     mat_->Ks = glm::vec3(0.05, 0.05, 0.05);
     mat_->Ks_map = 0;
     mat_->Ns = 1000.0f;
-    mat_->Ns_map = 0;
+    mat_->Ns_map = shininess_texture_;
     quad_->set_material(mat_);
 
     // Creating camera and camera controller pointers and initializing them
@@ -104,13 +110,9 @@ void SimpleShapeApplication::init() {
     glUseProgram(program);
 
     // Textures
-    xe::utils::set_uniform1i(program, "diffuse_map", 1);
-    xe::utils::set_uniform1i(program,"specular_map",3);
-    xe::utils::set_uniform1i(program,"shininess_map",4);
-
-    GLuint diffuse_texture;
-    glGenTextures(1, &diffuse_texture);
-    glActiveTexture(GL_TEXTURE0);
+    xe::utils::set_uniform1i(program, "diffuse_map", 3);
+    //xe::utils::set_uniform1i(program,"specular_map",4);
+    xe::utils::set_uniform1i(program,"shininess_map",5);
 }
 
 void SimpleShapeApplication::frame() {
@@ -164,10 +166,7 @@ void SimpleShapeApplication::cursor_position_callback(double x, double y) {
 void SimpleShapeApplication::draw_and_send_matrices(const glm::mat4 &p_, const glm::mat4 &mv_, const glm::mat3 &n_) {
     // sending updated light to shader
     glBindBuffer(GL_UNIFORM_BUFFER, u_light_buffer);
-    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::vec4), &light_.position_in_vs);
-    glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::vec4), sizeof(glm::vec4), &light_.color);
-    glBufferSubData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::vec4), sizeof(glm::vec4), &light_.a);
-    glBufferSubData(GL_UNIFORM_BUFFER, 3 * sizeof(glm::vec4), sizeof(glm::vec3), &light_.ambient);
+    glBufferSubData(GL_UNIFORM_BUFFER, 0, 4 * sizeof(glm::vec4), &light_.position_in_vs[0]);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
     glBindBuffer(GL_UNIFORM_BUFFER, u_material_buffer);
@@ -178,11 +177,11 @@ void SimpleShapeApplication::draw_and_send_matrices(const glm::mat4 &p_, const g
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, quad_->get_material()->Kd_map);
     }
-    if(quad_->get_material()->Ks_map>0) {
+    if(quad_->get_material()->Ks_map > 0) {
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, quad_->get_material()->Ks_map);
     }
-    if(quad_->get_material()->Ns_map>0) {
+    if(quad_->get_material()->Ns_map > 0) {
         glActiveTexture(GL_TEXTURE2);
         glBindTexture(GL_TEXTURE_2D, quad_->get_material()->Ns_map);
     }

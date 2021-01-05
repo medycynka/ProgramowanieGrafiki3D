@@ -83,6 +83,7 @@ private:
     GLuint u_light_buffer = 0;
     GLuint u_material_buffer = 0;
     GLuint diffuse_texture_ = 0;
+    GLuint shininess_texture_ = 0;
 
     // Matrices
     glm::mat4 M_{};
@@ -97,7 +98,7 @@ private:
         glm::vec4 position_in_vs;
         glm::vec4 color;
         glm::vec4 a;
-        glm::vec3 ambient;
+        glm::vec4 ambient;
     };
     Light light_{};
 
