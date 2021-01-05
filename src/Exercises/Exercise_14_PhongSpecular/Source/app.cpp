@@ -46,7 +46,7 @@ void SimpleShapeApplication::init() {
     light_.position = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
     light_.color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
     light_.a = glm::vec4(1.0f, 0.0f, 1.0f, 0.0f);
-    light_.ambient = glm::vec4(0.2f, 0.2f, 0.2f, 1.0f);
+    light_.ambient = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
     // Camera starting position for scaling, zooming and moving
     glm::vec3 cameraPos = {0.0f, 4.0f,  0.0f};
@@ -65,26 +65,27 @@ void SimpleShapeApplication::init() {
     }
 
     // Loading texture for quad
-    glGenTextures(1, &diffuse_texture_);
+    GLuint textures_[2]{ 0, 0};
+    glGenTextures(2, textures_);
+
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, diffuse_texture_);
+    glBindTexture(GL_TEXTURE_2D, textures_[0]);
     xe::utils::load_texture(std::string(PROJECT_DIR) + "/Textures/plastic.png");
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    //glGenTextures(1, &shininess_texture_);
-    //glActiveTexture(GL_TEXTURE2);
-    glBindTexture(GL_TEXTURE_2D, shininess_texture_);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, textures_[1]);
     xe::utils::load_texture(std::string(PROJECT_DIR) + "/Textures/shininess.png");
     glBindTexture(GL_TEXTURE_2D, 0);
 
     auto mat_ = quad_->get_material_allocator().allocate(1);
     quad_->get_material_allocator().construct(mat_);
     mat_->Kd = glm::vec3(1.0, 1.0, 1.0);
-    mat_->Kd_map = diffuse_texture_;
+    mat_->Kd_map = textures_[0];
     mat_->Ks = glm::vec3(0.05, 0.05, 0.05);
     mat_->Ks_map = 0;
     mat_->Ns = 1000.0f;
-    mat_->Ns_map = shininess_texture_;
+    mat_->Ns_map = textures_[1];
     quad_->set_material(mat_);
 
     // Creating camera and camera controller pointers and initializing them
@@ -110,9 +111,9 @@ void SimpleShapeApplication::init() {
     glUseProgram(program);
 
     // Textures
-    xe::utils::set_uniform1i(program, "diffuse_map", 3);
-    //xe::utils::set_uniform1i(program,"specular_map",4);
-    xe::utils::set_uniform1i(program,"shininess_map",5);
+    xe::utils::set_uniform1i(program, "diffuse_map", 0);
+    xe::utils::set_uniform1i(program,"specular_map",2);
+    xe::utils::set_uniform1i(program,"shininess_map",1);
 }
 
 void SimpleShapeApplication::frame() {
@@ -169,23 +170,10 @@ void SimpleShapeApplication::draw_and_send_matrices(const glm::mat4 &p_, const g
     glBufferSubData(GL_UNIFORM_BUFFER, 0, 4 * sizeof(glm::vec4), &light_.position_in_vs[0]);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
+    // sending material struct to shader
     glBindBuffer(GL_UNIFORM_BUFFER, u_material_buffer);
     glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(PhongMaterial), quad_->get_material());
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
-
-    if(quad_->get_material()->Kd_map > 0) {
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, quad_->get_material()->Kd_map);
-    }
-    if(quad_->get_material()->Ks_map > 0) {
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, quad_->get_material()->Ks_map);
-    }
-    if(quad_->get_material()->Ns_map > 0) {
-        glActiveTexture(GL_TEXTURE2);
-        glBindTexture(GL_TEXTURE_2D, quad_->get_material()->Ns_map);
-    }
-    quad_->draw();
 
     // sending updated pvm matrix to shader
     glBindBuffer(GL_UNIFORM_BUFFER, u_pvm_buffer);
@@ -195,4 +183,19 @@ void SimpleShapeApplication::draw_and_send_matrices(const glm::mat4 &p_, const g
     glBufferSubData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::mat4) + sizeof(glm::vec4), sizeof(glm::vec3), &n_[1]);
     glBufferSubData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::mat4) + 2 * sizeof(glm::vec4), sizeof(glm::vec3), &n_[2]);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+    if(quad_->get_material()->Kd_map > 0) {
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, quad_->get_material()->Kd_map);
+    }
+    if(quad_->get_material()->Ks_map > 0) {
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, quad_->get_material()->Ks_map);
+    }
+    if(quad_->get_material()->Ns_map > 0) {
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, quad_->get_material()->Ns_map);
+    }
+    quad_->draw();
+    glBindTexture(GL_TEXTURE_2D, 0);
 }

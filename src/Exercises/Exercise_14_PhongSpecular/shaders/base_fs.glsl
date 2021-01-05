@@ -22,8 +22,8 @@ layout(std140) uniform Material {
 } material;
 
 uniform sampler2D diffuse_map;
-uniform sampler2D specular_map;
 uniform sampler2D shininess_map;
+uniform sampler2D specular_map;
 
 const float M_PI = 3.14159265359f;
 const float eight_PI = M_PI * 8.0f;
