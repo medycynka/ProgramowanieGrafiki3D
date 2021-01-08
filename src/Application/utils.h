@@ -23,6 +23,10 @@ namespace xe {
 
         void set_uniform_block_binding(GLuint program, const std::string &name, GLuint binding);
 
+        uint8_t *load_image(const std::string &filename, int *width, int *height, int *n_channels);
+
+        std::string error_msg(GLenum status);
+
         void load_texture(const std::string &filename);
     }
 
@@ -31,7 +35,4 @@ namespace xe {
     GLuint link_program(GLuint program);
 
     GLuint create_program(const std::string &vs_path, const std::string &fs_path);
-
-
-
 }
