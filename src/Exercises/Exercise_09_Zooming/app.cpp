@@ -63,6 +63,12 @@ void SimpleShapeApplication::init() {
         glUniformBlockBinding(program, u_matrix_index, 0);
     }
 
+    glGenBuffers(1, &u_pvm_buffer);
+    glBindBuffer(GL_UNIFORM_BUFFER, u_pvm_buffer);
+    glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), nullptr, GL_STATIC_DRAW);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    glBindBufferBase(GL_UNIFORM_BUFFER, 0, u_pvm_buffer);
+
     // sending vertices & indices to shader
     GLuint idx_buffer_handle;
     glGenBuffers(1, &idx_buffer_handle);
@@ -125,12 +131,9 @@ void SimpleShapeApplication::frame() {
 
     // sending pvm matrix to shader
     glm::mat4 PMV = camera_->projection() * M_ * camera_->view();
-    glGenBuffers(1, &u_pvm_buffer);
     glBindBuffer(GL_UNIFORM_BUFFER, u_pvm_buffer);
-    glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), nullptr, GL_STATIC_DRAW);
     glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), &PMV[0]);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
-    glBindBufferBase(GL_UNIFORM_BUFFER, 0, u_pvm_buffer);
 }
 
 void SimpleShapeApplication::framebuffer_resize_callback(int w, int h) {
