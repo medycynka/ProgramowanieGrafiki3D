@@ -27,6 +27,12 @@ void SimpleShapeApplication::init() {
         glUniformBlockBinding(program, u_matrix_index, 0);
     }
 
+    glGenBuffers(1, &u_pvm_buffer);
+    glBindBuffer(GL_UNIFORM_BUFFER, u_pvm_buffer);
+    glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), nullptr, GL_STATIC_DRAW);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    glBindBufferBase(GL_UNIFORM_BUFFER, 0, u_pvm_buffer);
+
     // Camera starting position for scaling, zooming and moving
     glm::vec3 cameraPos = {0.0f, 45.0f,  0.1f};
     glm::vec3 cameraCenter = {0.0f, 0.0f, 0.0f};
@@ -188,10 +194,7 @@ void SimpleShapeApplication::draw_and_send_pmv(const glm::mat4 &pmv_) {
     pyramid_->draw();
 
     // sending updated pvm matrix to shader
-    glGenBuffers(1, &u_pvm_buffer);
     glBindBuffer(GL_UNIFORM_BUFFER, u_pvm_buffer);
-    glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), nullptr, GL_STATIC_DRAW);
     glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), &pmv_[0]);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
-    glBindBufferBase(GL_UNIFORM_BUFFER, 0, u_pvm_buffer);
 }

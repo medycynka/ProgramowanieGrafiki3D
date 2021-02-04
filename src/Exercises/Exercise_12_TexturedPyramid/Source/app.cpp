@@ -36,6 +36,12 @@ void SimpleShapeApplication::init() {
     int w, h;
     std::tie(w, h) = frame_buffer_size();
 
+    glGenBuffers(1, &u_pvm_buffer);
+    glBindBuffer(GL_UNIFORM_BUFFER, u_pvm_buffer);
+    glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), nullptr, GL_STATIC_DRAW);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    glBindBufferBase(GL_UNIFORM_BUFFER, 0, u_pvm_buffer);
+
     // Creating pyramid, camera and camera controller pointers and initializing them
     pyramid_ = p_al_.allocate(1);
     p_al_.construct(pyramid_);
@@ -122,11 +128,7 @@ void SimpleShapeApplication::draw_and_send_pmv(const glm::mat4 &pmv_) {
     pyramid_->draw();
 
     // sending updated pvm matrix to shader
-    glGenBuffers(1, &u_pvm_buffer);
     glBindBuffer(GL_UNIFORM_BUFFER, u_pvm_buffer);
-    glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), nullptr, GL_STATIC_DRAW);
     glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), &pmv_[0]);
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
-    glBindBufferBase(GL_UNIFORM_BUFFER, 0, u_pvm_buffer);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
